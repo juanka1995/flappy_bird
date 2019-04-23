@@ -21,6 +21,7 @@ class FlappyBird extends THREE.Scene {
     // Por último creamos la caja del ejemplo, como una instancia de una clase propia, que gestionará su creación y la interacción con la misma
     this.duck = new Duck();
     this.add (this.duck);
+    this.posicion = 0;
   }
   
   createCamera (unRenderer) {
@@ -39,17 +40,15 @@ class FlappyBird extends THREE.Scene {
   
   createBackGround () {
     // Una figura es un Mesh
-    var background = new THREE.Mesh ();
+    this.background = new THREE.Mesh ();
     // Un Mesh se compone de geometría y material
-    background.geometry = new THREE.BoxGeometry (30,17,0);
+    this.background.geometry = new THREE.BoxGeometry (30,17,0);
     // Las primitivas básicas se crean centradas en el origen
-    // Se puede modificar su posición con respecto al sistema de coordenadas local con una transformación aplicada directamente a la geometría.
-    background.geometry.rotateZ(0);
     // Como material se crea uno a partir de una textura
     var texture = new THREE.TextureLoader().load('../imgs/width_fondo_bar.png');
-    background.material = new THREE.MeshPhongMaterial ({map: texture});
+    this.background.material = new THREE.MeshPhongMaterial ({map: texture});
     // Por último se añade el suelo a la escena
-    this.add (background);
+    this.add (this.background);
   }
   
   createLights () {
