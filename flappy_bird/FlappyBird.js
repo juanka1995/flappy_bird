@@ -10,7 +10,6 @@ class FlappyBird extends THREE.Scene {
     
     // Construimos los distinos elementos que tendremos en la escena
     this.createBackGround();
-    
     // Todo elemento que se desee sea tenido en cuenta en el renderizado de la escena debe pertenecer a esta. Bien como hijo de la escena (this en esta clase) o como hijo de un elemento que ya esté en la escena.
     // Tras crear cada elemento se añadirá a la escena con   this.add(variable)
     this.createLights ();
@@ -21,7 +20,6 @@ class FlappyBird extends THREE.Scene {
     // Por último creamos la caja del ejemplo, como una instancia de una clase propia, que gestionará su creación y la interacción con la misma
     this.duck = new Duck();
     this.add (this.duck);
-    this.posicion = 0;
   }
   
   createCamera (unRenderer) {
@@ -39,14 +37,18 @@ class FlappyBird extends THREE.Scene {
   }
   
   createBackGround () {
+    // Valor para mover el fondo
+    this.time = 0;
     // Una figura es un Mesh
     this.background = new THREE.Mesh ();
     // Un Mesh se compone de geometría y material
     this.background.geometry = new THREE.BoxGeometry (30,17,0);
     // Las primitivas básicas se crean centradas en el origen
     // Como material se crea uno a partir de una textura
-    var texture = new THREE.TextureLoader().load('../imgs/width_fondo_bar.png');
-    this.background.material = new THREE.MeshPhongMaterial ({map: texture});
+    this.texture = new THREE.TextureLoader().load('../imgs/width_fondo_bar.png');
+    this.texture.wrapS = THREE.RepeatWrapping;
+
+    this.background.material = new THREE.MeshPhongMaterial ({map: this.texture});
     // Por último se añade el suelo a la escena
     this.add (this.background);
   }
@@ -83,5 +85,9 @@ class FlappyBird extends THREE.Scene {
   update () {    
     // Se actualiza el resto del modelo
     this.duck.update();
+    
+    // Mover el fondo
+    this.time++;
+    this.texture.offset.x = this.time*0.0015;
   }
 }
