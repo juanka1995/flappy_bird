@@ -88,6 +88,6 @@ class FlappyBird extends THREE.Scene {
     
     // Mover el fondo
     this.time++;
-    this.texture.offset.x = this.time*0.0015;
+    this.texture.offset.x = this.time*0.0035;
   }
 }
