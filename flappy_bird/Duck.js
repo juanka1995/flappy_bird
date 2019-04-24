@@ -11,9 +11,14 @@ class Duck extends THREE.Mesh {
     this.geometry = new THREE.BoxGeometry (1,1,1);
     // Las primitivas básicas se crean centradas en el origen
     // Se puede modificar su posición con respecto al sistema de coordenadas local con una transformación aplicada directamente a la geometría.
-    this.geometry.applyMatrix (new THREE.Matrix4().makeTranslation(0,0.5,0));
+    //this.geometry.applyMatrix (new THREE.Matrix4().makeTranslation(0,0.5,0));
     // Como material se crea uno a partir de un color
-    this.material = new THREE.MeshPhongMaterial({color: 0xCF0000});
+    this.material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+    this.upperBound = 7.6;
+    this.lowerBound = -4.7;
+    this.y = 0;
+    this.startedGame = false;
+
   }
   
   createGUI () {
@@ -59,14 +64,16 @@ class Duck extends THREE.Mesh {
     
     folder.add (this.guiControls, 'rotX', 0.0, Math.PI/2, 0.1).name ('Rotación X : ').listen();
     folder.add (this.guiControls, 'rotY', 0.0, Math.PI/2, 0.1).name ('Rotación Y : ').listen();
-    folder.add (this.guiControls, 'rotZ', 0.0, Math.PI/2, 0.1).name ('Rotación Z : ').listen();
+    folder.add (this.guiControls, 'rotZ', -1, 1, 0.1).name ('Rotación Z : ').listen();
     
     folder.add (this.guiControls, 'posX', -20.0, 20.0, 0.1).name ('Posición X : ').listen();
-    folder.add (this.guiControls, 'posY', 0.0, 10.0, 0.1).name ('Posición Y : ').listen();
+    folder.add (this.guiControls, 'posY', -4.7, 7.6, 0.1).name ('Posición Y : ').listen();
     folder.add (this.guiControls, 'posZ', -20.0, 20.0, 0.1).name ('Posición Z : ').listen();
     
     folder.add (this.guiControls, 'reset').name ('[ Reset ]');
   }
+
+
   
   update () {
     // Con independencia de cómo se escriban las 3 siguientes líneas, el orden en el que se aplican las transformaciones es:
@@ -75,8 +82,33 @@ class Duck extends THREE.Mesh {
     // Después, la rotación en Y
     // Luego, la rotación en X
     // Y por último la traslación
-    this.position.set (this.guiControls.posX,this.guiControls.posY,this.guiControls.posZ);
+
+    this.y-=0.02;
+
+    if(this.outOfUpperBound()){
+      this.y = this.upperBound;
+    }
+
+    if(this.outOfLowerBound()){
+      this.y = this.lowerBound;
+    }
+
+    this.position.set (0,this.y,0);
     this.rotation.set (this.guiControls.rotX,this.guiControls.rotY,this.guiControls.rotZ);
-    this.scale.set (this.guiControls.sizeX,this.guiControls.sizeY,this.guiControls.sizeZ);
+    
   }
+
+  outOfUpperBound(){
+    return this.y >= this.upperBound;
+  }
+
+  outOfLowerBound(){
+    return this.y <= this.lowerBound;
+  }
+
+  fly(){
+    this.y+=0.5;
+    this.position.set (0,this.y,0);
+  }
+
 }

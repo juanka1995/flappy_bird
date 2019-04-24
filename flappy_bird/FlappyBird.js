@@ -20,6 +20,7 @@ class FlappyBird extends THREE.Scene {
     // Por último creamos la caja del ejemplo, como una instancia de una clase propia, que gestionará su creación y la interacción con la misma
     this.duck = new Duck();
     this.add (this.duck);
+    this.startedGame = false;
   }
   
   createCamera (unRenderer) {
@@ -84,10 +85,17 @@ class FlappyBird extends THREE.Scene {
   
   update () {    
     // Se actualiza el resto del modelo
-    this.duck.update();
+    if(this.startedGame){
+        this.duck.update();
+    }
     
     // Mover el fondo
     this.time++;
-    this.texture.offset.x = this.time*0.0035;
+    this.texture.offset.x = this.time*0.0015;
+  }
+
+  startGame(){
+    this.startedGame = true;
+    this.duck.fly();
   }
 }

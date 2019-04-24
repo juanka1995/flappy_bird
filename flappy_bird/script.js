@@ -29,6 +29,17 @@ function createRenderer () {
   return renderer;  
 }
 
+function onDocumentKeyDown(event) {
+    var code = event.code;
+    if (code == "Space") {
+      scene.startGame();
+    }
+};
+
+function onClick(event) {
+  scene.startGame();
+};
+
 /// Función que se encarga de renderizar un frame
 /**
  * Se renderiza la escena, captada por una cámara.
@@ -63,6 +74,8 @@ $(function () {
   // listeners
   // Cada vez que el usuario cambie el tamaño de la ventana se llama a la función que actualiza la cámara y el renderer
   window.addEventListener ("resize", onWindowResize);
+  window.addEventListener ("keydown", onDocumentKeyDown);
+  window.addEventListener ("click", onClick);
   
   // Se crea una interfaz gráfica de usuario vacia
   gui = new dat.GUI();
