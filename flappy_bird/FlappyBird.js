@@ -50,7 +50,7 @@ class FlappyBird extends THREE.Scene {
     // Una figura es un Mesh
     this.background = new THREE.Mesh ();
     // Un Mesh se compone de geometría y material
-    this.background.geometry = new THREE.BoxGeometry (30,17,0);
+    this.background.geometry = new THREE.PlaneGeometry(30,17);
     // Las primitivas básicas se crean centradas en el origen
     // Como material se crea uno a partir de una textura
     this.texture = new THREE.TextureLoader().load('../imgs/width_fondo_bar.png');
