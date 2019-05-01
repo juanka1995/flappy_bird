@@ -23,6 +23,32 @@ class FlappyBird extends THREE.Scene {
     this.startedGame = false;
   }
   
+  //DEBUG
+/*
+   createCamera (unRenderer) {
+    // Para crear una cámara le indicamos
+    //   El ángulo del campo de visión en grados sexagesimales
+    //   La razón de aspecto ancho/alto
+    //   Los planos de recorte cercano y lejano
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // También se indica dónde se coloca
+    this.camera.position.set (20, 10, 20);
+    // Y hacia dónde mira
+    var look = new THREE.Vector3 (0,0,0);
+    this.camera.lookAt(look);
+    this.add (this.camera);
+    
+    // Para el control de cámara usamos una clase que ya tiene implementado los movimientos de órbita
+    this.cameraControl = new THREE.TrackballControls (this.camera, unRenderer);
+    // Se configuran las velocidades de los movimientos
+    this.cameraControl.rotateSpeed = 5;
+    this.cameraControl.zoomSpeed = -2;
+    this.cameraControl.panSpeed = 0.5;
+    // Debe orbitar con respecto al punto de mira de la cámara
+    this.cameraControl.target = look;
+  }*/
+
+
   createCamera (unRenderer) {
     // Para crear una cámara le indicamos
     //   El ángulo del campo de visión en grados sexagesimales
@@ -67,7 +93,7 @@ class FlappyBird extends THREE.Scene {
     // La luz focal, además tiene una posición, y un punto de mira
     // Si no se le da punto de mira, apuntará al (0,0,0) en coordenadas del mundo
     // En este caso se declara como   this.atributo   para que sea un atributo accesible desde otros métodos.
-    this.spotLight = new THREE.SpotLight( 0xffffff, 1);
+    this.spotLight = new THREE.SpotLight( 0xffffff, 0.1);
     this.spotLight.position.set( 60, 60, 40 );
     this.add (this.spotLight);
   }
@@ -92,6 +118,9 @@ class FlappyBird extends THREE.Scene {
     // Mover el fondo
     this.time++;
     this.texture.offset.x = this.time*0.0015;
+
+    //DEBUG
+    //this.cameraControl.update();
   }
 
   startGame(){
