@@ -7,7 +7,7 @@
 class FlappyBird extends THREE.Scene {
   constructor (unRenderer) {
     super();
-    
+
     // Construimos los distinos elementos que tendremos en la escena
     this.createBackGround();
     // Todo elemento que se desee sea tenido en cuenta en el renderizado de la escena debe pertenecer a esta. Bien como hijo de la escena (this en esta clase) o como hijo de un elemento que ya esté en la escena.
@@ -17,14 +17,16 @@ class FlappyBird extends THREE.Scene {
     // Tendremos una cámara con un control de movimiento con el ratón
     this.createCamera (unRenderer);
     
-    
     // Obstaculos
+    this.next_obstacle = 2;
     this.obstacle1 = new Obstacle();
     this.add(this.obstacle1);
+    this.obstacle2 = new Obstacle();
+    this.add(this.obstacle2);
     
     // Objecto pato
     this.duck = new Duck();
-    // this.add (this.duck);
+    this.add (this.duck);
 
     // Variable que determina cuando el juego se inicia o no
     this.startedGame = false;
@@ -93,8 +95,16 @@ class FlappyBird extends THREE.Scene {
   update () {    
     // Si el juego ha iniciado se actualiza el resto del modelo
     if(this.startedGame){
-        // Actualizar pato
-        this.duck.update();
+      // Actualizar pato
+      this.duck.update();
+      
+      // Actualizar obstaculos
+      if(this.obstacle1.getIsOnTheMiddle()){
+        this.obstacle1.updateMovement();
+        this.obstacle2.updateMovement();
+      } else {
+        this.obstacle1.updateMovement();
+      }
     }
     
     // Mover el fondo
