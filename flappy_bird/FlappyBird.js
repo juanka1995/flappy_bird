@@ -37,9 +37,20 @@ class FlappyBird extends THREE.Scene {
     //   El ángulo del campo de visión en grados sexagesimales
     //   La razón de aspecto ancho/alto
     //   Los planos de recorte cercano y lejano
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    
+    var umbral = 1.1955420466058764;
+    var ratio = window.innerWidth / window.innerHeight;
+    this.camera = new THREE.PerspectiveCamera(45, ratio, 0.1, 1000);
+    if(ratio > umbral){
+      var rr = ratio / umbral;
+      var d = 20 / rr;
+    } else {
+      var d = 20;
+    }
+    console.log(window.innerWidth / window.innerHeight)
+    console.log(window.innerWidth)
     // También se indica dónde se coloca
-    this.camera.position.set (0, 0, 20);
+    this.camera.position.set (0, 0, d);
     // Y hacia dónde mira
     var look = new THREE.Vector3 (0,0,0);
     this.camera.lookAt(look);
