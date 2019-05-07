@@ -5,8 +5,8 @@
     // Limites superior e inferior
     this.upperBound = 8.1;
     this.lowerBound = -5.15;
-    this.rightBound = 9.65;
-    this.leftBound = -9.65;
+    this.rightBound = 13.65;
+    this.leftBound = -13.65;
     var width_window = this.upperBound - this.lowerBound;
     var respect_space = 0.3;
 
