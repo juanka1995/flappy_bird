@@ -60,7 +60,7 @@ class Duck extends THREE.Object3D {
     this.position.set (0,this.y,this.z);
     this.instanciateAnimations();
 
-    this.duckBox = new Box3(new THREE.Vector3(), new THREE.Vector3());
+    //this.duckBox = new Box3(new THREE.Vector3(), new THREE.Vector3());
   }
   
 

@@ -7,7 +7,7 @@
 class FlappyBird extends THREE.Scene {
   constructor (unRenderer) {
     super();
-    
+
     // Construimos los distinos elementos que tendremos en la escena
     this.createBackGround();
     // Todo elemento que se desee sea tenido en cuenta en el renderizado de la escena debe pertenecer a esta. Bien como hijo de la escena (this en esta clase) o como hijo de un elemento que ya esté en la escena.
@@ -17,38 +17,21 @@ class FlappyBird extends THREE.Scene {
     // Tendremos una cámara con un control de movimiento con el ratón
     this.createCamera (unRenderer);
     
-    // Por último creamos la caja del ejemplo, como una instancia de una clase propia, que gestionará su creación y la interacción con la misma
+    // Obstaculos
+    this.next_obstacle = 2;
+    this.obstacle1 = new Obstacle();
+    this.add(this.obstacle1);
+    this.obstacle2 = new Obstacle();
+    this.add(this.obstacle2);
+    
+    // Objecto pato
     this.duck = new Duck();
     this.add (this.duck);
+
+    // Variable que determina cuando el juego se inicia o no
     this.startedGame = false;
   }
   
-  //DEBUG
-/*
-   createCamera (unRenderer) {
-    // Para crear una cámara le indicamos
-    //   El ángulo del campo de visión en grados sexagesimales
-    //   La razón de aspecto ancho/alto
-    //   Los planos de recorte cercano y lejano
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    // También se indica dónde se coloca
-    this.camera.position.set (20, 10, 20);
-    // Y hacia dónde mira
-    var look = new THREE.Vector3 (0,0,0);
-    this.camera.lookAt(look);
-    this.add (this.camera);
-    
-    // Para el control de cámara usamos una clase que ya tiene implementado los movimientos de órbita
-    this.cameraControl = new THREE.TrackballControls (this.camera, unRenderer);
-    // Se configuran las velocidades de los movimientos
-    this.cameraControl.rotateSpeed = 5;
-    this.cameraControl.zoomSpeed = -2;
-    this.cameraControl.panSpeed = 0.5;
-    // Debe orbitar con respecto al punto de mira de la cámara
-    this.cameraControl.target = look;
-  }*/
-
-
   createCamera (unRenderer) {
     // Para crear una cámara le indicamos
     //   El ángulo del campo de visión en grados sexagesimales
@@ -69,7 +52,7 @@ class FlappyBird extends THREE.Scene {
     // Una figura es un Mesh
     this.background = new THREE.Mesh ();
     // Un Mesh se compone de geometría y material
-    this.background.geometry = new THREE.BoxGeometry (30,17,0);
+    this.background.geometry = new THREE.BoxGeometry(30,17);
     // Las primitivas básicas se crean centradas en el origen
     // Como material se crea uno a partir de una textura
     this.texture = new THREE.TextureLoader().load('../imgs/width_fondo_bar.png');
@@ -93,7 +76,7 @@ class FlappyBird extends THREE.Scene {
     // La luz focal, además tiene una posición, y un punto de mira
     // Si no se le da punto de mira, apuntará al (0,0,0) en coordenadas del mundo
     // En este caso se declara como   this.atributo   para que sea un atributo accesible desde otros métodos.
-    this.spotLight = new THREE.SpotLight( 0xffffff, 0.1);
+    this.spotLight = new THREE.SpotLight( 0xffffff, 1);
     this.spotLight.position.set( 60, 60, 40 );
     this.add (this.spotLight);
   }
@@ -110,19 +93,26 @@ class FlappyBird extends THREE.Scene {
   }
   
   update () {    
-    // Se actualiza el resto del modelo
+    // Si el juego ha iniciado se actualiza el resto del modelo
     if(this.startedGame){
-        this.duck.update();
+      // Actualizar pato
+      this.duck.update();
+      
+      // Actualizar obstaculos
+      if(this.obstacle1.getIsOnTheMiddle()){
+        this.obstacle1.updateMovement();
+        this.obstacle2.updateMovement();
+      } else {
+        this.obstacle1.updateMovement();
+      }
     }
     
     // Mover el fondo
     this.time++;
-    this.texture.offset.x = this.time*0.0015;
-
-    //DEBUG
-    //this.cameraControl.update();
+    this.texture.offset.x = this.time*0.0035;
   }
 
+  // Función que se encarga de iniciar el juego
   startGame(){
     this.startedGame = true;
     this.duck.fly();
