@@ -38,9 +38,8 @@ class FlappyBird extends THREE.Scene {
     //   La razón de aspecto ancho/alto
     //   Los planos de recorte cercano y lejano
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    console.log(window.innerWidth / window.innerHeight)
-    console.log(window.innerWidth / window.innerHeight)
-    console.log(window.innerWidth / window.innerHeight)
+    // console.log(window.innerWidth / window.innerHeight)
+    // console.log(window.innerWidth)
     // También se indica dónde se coloca
     this.camera.position.set (0, 0, 20);
     // Y hacia dónde mira
@@ -55,15 +54,40 @@ class FlappyBird extends THREE.Scene {
     // Una figura es un Mesh
     this.background = new THREE.Mesh ();
     // Un Mesh se compone de geometría y material
-    this.background.geometry = new THREE.BoxGeometry(30,17);
+    var size_x_background = 30;
+    var size_y_background = 17;
+    this.background.geometry = new THREE.BoxGeometry(size_x_background, size_y_background);
     // Las primitivas básicas se crean centradas en el origen
     // Como material se crea uno a partir de una textura
     this.texture = new THREE.TextureLoader().load('../imgs/width_fondo_bar.png');
     this.texture.wrapS = THREE.RepeatWrapping;
-
     this.background.material = new THREE.MeshPhongMaterial ({map: this.texture});
     // Por último se añade el suelo a la escena
     this.add (this.background);
+
+
+    // Bandas negras laterales, superior e inferior
+    var geometry = new THREE.PlaneGeometry(30, 50, 1);
+    var material = new THREE.MeshBasicMaterial( {color: 0x000000} );
+    this.black_right_side = new THREE.Mesh(geometry, material);
+    this.black_left_side = new THREE.Mesh(geometry, material);
+    this.black_right_side.position.x = size_x_background-1;
+    this.black_right_side.position.z = 1;
+    this.black_left_side.position.x = -size_x_background+1;
+    this.black_left_side.position.z = 1;
+
+    var geometry2 = new THREE.PlaneGeometry(50, 17, 1);
+    this.black_up_side = new THREE.Mesh(geometry2, material);
+    this.black_down_side = new THREE.Mesh(geometry2, material);
+    this.black_up_side.position.y = size_y_background-0.6;
+    this.black_up_side.position.z = 1;
+    this.black_down_side.position.y = -size_y_background+0.2;
+    this.black_down_side.position.z = 1;
+    
+    this.add(this.black_right_side);
+    this.add(this.black_left_side);
+    this.add(this.black_up_side);
+    this.add(this.black_down_side);
   }
   
   createLights () {
