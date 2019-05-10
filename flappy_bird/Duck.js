@@ -18,10 +18,11 @@ class Duck extends THREE.Object3D {
     this.subida = 0.175;          // Incrementado o decrementado de posicion
     this.rotZ = 0;              // Vuelve a poner la rotacion en 0
     this.duracionSubida = 250;     
-    this.duracionAnimacionHoraria = 250;
-    this.duracionAnimacionAntihoraria = (this.duracionAnimacionHoraria*3)/2;
-    this.nuevaPosicionRotacion = 1.1;  // Limite superior e inferior de rotacion en Z
+    this.duracionAnimacionHoraria = 50;
+    this.duracionAnimacionAntihoraria = this.duracionAnimacionHoraria * 1.5;
+    this.limiteRotacion = 0.5;  // Limite superior e inferior de rotacion en Z
     this.incrementoEnY = 2;   // Siguiente posicion en la que va a estar en Y: posActual = posActual + this.incrementoEnY
+
 
     var posZ = 1.2;
     var alturaIncremental = 0;
@@ -39,7 +40,6 @@ class Duck extends THREE.Object3D {
     this.papada = new Papada(alturaIncremental+this.cabeza.getPosY()/2);
     this.ojoDerecho = new Ojo(alturaIncremental+this.cabeza.getPosY()/2,posZ);
     this.ojoIzquierdo = new Ojo(alturaIncremental+this.cabeza.getPosY()/2,-posZ);
-
 
     this.pataIzquierda.setPataAtras(this.cuerpo.getPosY());
     this.pataDerecha.setPataAtras(this.cuerpo.getPosY());
@@ -64,7 +64,8 @@ class Duck extends THREE.Object3D {
     
     
 
-    this.duckBox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+    this.duckBox = new THREE.Box3().setFromObject(this);
+    //this.add(this.duckBox);
   }
 
   update () {
@@ -132,7 +133,7 @@ class Duck extends THREE.Object3D {
                     .onUpdate(function() {
                         that.y = that.posicionActual.y;
                         that.position.set (0,that.posicionActual.y,that.z);
-                        console.log("animacionBajando: " + that.posicionActual.y);
+                        //console.log("animacionBajando: " + that.posicionActual.y);
                     })
                     .onComplete( function () {that.posicionActual.y = that.y});
 
@@ -144,7 +145,7 @@ class Duck extends THREE.Object3D {
                     .onUpdate(function() {
                         that.y = that.posicionActual.y;
                         that.position.set (0,that.posicionActual.y,that.z);
-                        console.log("animacionSubiendo: " + that.posicionActual.y);
+                        //console.log("animacionSubiendo: " + that.posicionActual.y);
                     })
                     .onComplete( function () {that.posicionActual.y = that.y});
 
@@ -158,7 +159,8 @@ class Duck extends THREE.Object3D {
         }
 
         that.rotation.set (0,0,that.rotZ);
-    } );
+        //console.log("rotacionHoraria: " + that.rotZ);
+    } )
 
     this.rotacionAntiHoraria = new TWEEN.Tween({y: that.y})
     .to({y: 0}, that.duracionAnimacionAntihoraria)
@@ -170,7 +172,8 @@ class Duck extends THREE.Object3D {
         }
 
         that.rotation.set (0,0,that.rotZ);
-    } );
+        //console.log("rotacionAntiHoraria: " + that.rotZ);
+    } )
 
 
     this.rotacionHoraria.chain(this.animacionSubiendo);
