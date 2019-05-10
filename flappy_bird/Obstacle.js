@@ -64,7 +64,7 @@
   }
 
   getLowerObstacleBound(){
-    return this.lowerBound + this.lower_pipeline.getSizeY() + 0.15;
+    return this.lowerBound + this.lower_pipeline.getSizeY() -0.1/*+ 0.15*/;
   }
   
   getXPosition(){
@@ -85,6 +85,10 @@
 
   getObstacleCenter(){
     return this.center_y;
+  }
+
+  getBox(){
+    return new THREE.Box3().setFromObject(this);
   }
 
   updateMovement () {

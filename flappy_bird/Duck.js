@@ -63,8 +63,6 @@ class Duck extends THREE.Object3D {
     this.instanciateAnimations();
     
     
-
-    this.duckBox = new THREE.Box3().setFromObject(this);
     //this.add(this.duckBox);
   }
 
@@ -180,4 +178,17 @@ class Duck extends THREE.Object3D {
     this.animacionSubiendo.chain(this.rotacionAntiHoraria);
     this.rotacionAntiHoraria.chain(this.animacionBajando);
   }
+
+  getBox(){
+    return new THREE.Box3().setFromObject(this);
+  }
+
+  getXPosition(){
+    return this.position.x;
+  }
+
+  getYPosition(){
+    return this.y;
+  }
+
 }

@@ -30,6 +30,9 @@ class FlappyBird extends THREE.Scene {
 
     // Variable que determina cuando el juego se inicia o no
     this.startedGame = false;
+    this.lifes = 1;
+    this.score = 0;
+    this.points = 1;
   }
   
   createCamera (unRenderer) {
@@ -121,27 +124,71 @@ class FlappyBird extends THREE.Scene {
   
   update () {    
     // Si el juego ha iniciado se actualiza el resto del modelo
+
     if(this.startedGame){
       // Actualizar pato
-      this.duck.update();
-      
-      // Actualizar obstaculos
-      if(this.obstacle1.getIsOnTheMiddle()){
-        this.obstacle1.updateMovement();
-        this.obstacle2.updateMovement();
-      } else {
-        this.obstacle1.updateMovement();
-      }
-    }
+      if(this.lifes > 0){
+          this.duck.update();
+          
+          // Actualizar obstaculos
+          if(this.obstacle1.getIsOnTheMiddle()){
+            this.obstacle1.updateMovement();
+            this.obstacle2.updateMovement();
+          } else {
+            this.obstacle1.updateMovement();
+          }
+
+          let distanceToObs1 = this.obstacle1.getXPosition() - this.duck.getXPosition();
+          let distanceToObs2 = this.obstacle2.getXPosition() - this.duck.getXPosition();
+
+          if(distanceToObs1 > 0){
+            if(distanceToObs1 <= 0.5){
+                if(this.duck.getYPosition() > this.obstacle1.getUpperObstacleBound() || this.duck.getYPosition() < this.obstacle1.getLowerObstacleBound()){
+                //if(this.duck.getBox().intersectsBox(this.obstacle1.getBox())){
+                    console.log("POS: " + this.duck.getYPosition() + " OBS1_UP: " + this.obstacle1.getUpperObstacleBound() + " OBS1_LO: " + this.obstacle1.getLowerObstacleBound());
+                    this.loseLife();
+                }  
+            }
+          }
+          else if(distanceToObs1 > -0.1){
+            this.increaseScore();
+          }
+
+          if(distanceToObs2 > 0){
+            if(distanceToObs2 <= 0.5){
+                if(this.duck.getYPosition() > this.obstacle2.getUpperObstacleBound() || this.duck.getYPosition() < this.obstacle2.getLowerObstacleBound()){
+                //if(this.duck.getBox().intersectsBox(this.obstacle2.getBox())){
+                    console.log("POS: " + this.duck.getYPosition() + " OBS2_UP: " + this.obstacle2.getUpperObstacleBound() + " OBS2_LO: " + this.obstacle2.getLowerObstacleBound());
+                    this.loseLife();
+                }  
+            }
+          }
+          else if(distanceToObs2 > -0.1){
+            this.increaseScore();
+          }
+
     
-    // Mover el fondo
-    this.time++;
-    this.texture.offset.x = this.time*0.0035;
+        // Mover el fondo
+        this.time++;
+        this.texture.offset.x = this.time*0.0035;
+    }
+
   }
+}
 
   // Función que se encarga de iniciar el juego
   startGame(){
     this.startedGame = true;
     this.duck.fly();
+  }
+
+  increaseScore(){
+    this.score += this.points; 
+    console.log("SCORE:"+ this.score);
+  }
+
+  loseLife(){
+    this.lifes -= 1;
+    console.log("LIFES:" + this.lifes);
   }
 }
