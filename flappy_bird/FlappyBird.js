@@ -150,8 +150,9 @@ class FlappyBird extends THREE.Scene {
           if(distanceToObs1 < this.obstacle1.getWidthObstacle()/2 && distanceToObs1 > -(this.obstacle1.getWidthObstacle()/2)){
             let duckBox = new THREE.Box3().setFromObject(this.duck);
             let obstacleBox = new THREE.Box3().setFromObject(this.obstacle1);
-            if(!duckBox.intersectsBox(obstacleBox))
-              console.log("CHOCO!")
+            if(obstacleBox.intersectsBox(duckBox)){
+              console.log("CHOCO!");
+            }
             /*if(distanceToObs1 <= this.obstacle1.getWidthObstacle()/2){
               
                 if(this.duck.getYPosition() > this.obstacle1.getUpperObstacleBound()+this.offset || this.duck.getYPosition() < this.obstacle1.getLowerObstacleBound()-this.offset){

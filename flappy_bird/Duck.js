@@ -12,7 +12,7 @@ class Duck extends THREE.Object3D {
     this.lowerBound = -4.7;
     this.x = 2;
     this.y = 0;
-    this.z = 1;
+    this.z = 0.5;
     
 
     // Variables de las animaciones
