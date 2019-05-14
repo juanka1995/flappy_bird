@@ -91,6 +91,10 @@
     return new THREE.Box3().setFromObject(this);
   }
 
+  getWidthObstacle(){
+    return this.upper_pipeline.getWidth();
+  }
+
   updateMovement () {
     if(this.obstacle.position.x < this.max_left_pos){
       this.calculateNewCenter();
