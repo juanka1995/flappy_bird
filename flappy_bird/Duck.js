@@ -10,6 +10,7 @@ class Duck extends THREE.Object3D {
     // Variables de posiciones
     this.upperBound = 10;
     this.lowerBound = -4.7;
+    this.x = 2;
     this.y = 0;
     this.z = 1;
     
@@ -34,7 +35,7 @@ class Duck extends THREE.Object3D {
     this.alaDerecha = new Ala(alturaIncremental + this.cuerpo.getPosY()/2,2);
     this.alaIzquierda = new Ala(alturaIncremental + this.cuerpo.getPosY()/2,-2);
     alturaIncremental += this.cuerpo.getPosY();
-    this.cabeza = new Cabeza(2,alturaIncremental);
+    this.cabeza = new Cabeza(this.x,alturaIncremental);
     this.picoArriba = new Pico(alturaIncremental+this.cabeza.getPosY()/2, "picoArriba" );
     this.picoAbajo = new Pico(alturaIncremental+this.cabeza.getPosY()/2, "picoAbajo" );
     this.papada = new Papada(alturaIncremental+this.cabeza.getPosY()/2);
@@ -100,7 +101,7 @@ class Duck extends THREE.Object3D {
     // Se define la nueva posicion en la animacion con la duracion
     this.animacionSubiendo.to(this.nuevaPosicion, this.duracionSubida);
     // Comienza la animacion
-    this.rotacionHoraria.start();
+    this.animacionSubiendo.start();
   }
 
   startFallAnimation(){
@@ -143,11 +144,12 @@ class Duck extends THREE.Object3D {
                     .onUpdate(function() {
                         that.y = that.posicionActual.y;
                         that.position.set (0,that.posicionActual.y,that.z);
+                        that.rotation.set (0,0,0);
                         //console.log("animacionSubiendo: " + that.posicionActual.y);
                     })
                     .onComplete( function () {that.posicionActual.y = that.y});
 
-    this.rotacionHoraria = new TWEEN.Tween({y: that.y})
+    /*this.rotacionHoraria = new TWEEN.Tween({y: that.y})
     .to({y: 0}, that.duracionAnimacionHoraria)
     .onUpdate( function ( ) {
         that.rotZ+=that.subida;
@@ -158,7 +160,7 @@ class Duck extends THREE.Object3D {
 
         that.rotation.set (0,0,that.rotZ);
         //console.log("rotacionHoraria: " + that.rotZ);
-    } )
+    } )*/
 
     this.rotacionAntiHoraria = new TWEEN.Tween({y: that.y})
     .to({y: 0}, that.duracionAnimacionAntihoraria)
@@ -174,16 +176,13 @@ class Duck extends THREE.Object3D {
     } )
 
 
-    this.rotacionHoraria.chain(this.animacionSubiendo);
+    //this.rotacionHoraria.chain(this.animacionSubiendo);
     this.animacionSubiendo.chain(this.rotacionAntiHoraria);
     this.rotacionAntiHoraria.chain(this.animacionBajando);
   }
 
-  getBox(){
-    return new THREE.Box3().setFromObject(this);
-  }
-
   getXPosition(){
+    //return this.x;
     return this.position.x;
   }
 

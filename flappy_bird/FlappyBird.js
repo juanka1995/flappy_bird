@@ -33,6 +33,9 @@ class FlappyBird extends THREE.Scene {
     this.lifes = 1;
     this.score = 0;
     this.points = 1;
+    // Umbral para determinar si PATO ha pasado un obstaculo
+    this.threshold = -0.1;
+    this.offset = 0.2;
   }
   
   createCamera (unRenderer) {
@@ -127,8 +130,9 @@ class FlappyBird extends THREE.Scene {
 
     if(this.startedGame){
       // Actualizar pato
+      this.duck.update();
       if(this.lifes > 0){
-          this.duck.update();
+
           
           // Actualizar obstaculos
           if(this.obstacle1.getIsOnTheMiddle()){
@@ -138,34 +142,43 @@ class FlappyBird extends THREE.Scene {
             this.obstacle1.updateMovement();
           }
 
-          let distanceToObs1 = this.obstacle1.getXPosition() - this.duck.getXPosition();
-          let distanceToObs2 = this.obstacle2.getXPosition() - this.duck.getXPosition();
+          var distanceToObs1 = this.obstacle1.getXPosition() - this.duck.getXPosition();
+          var distanceToObs2 = this.obstacle2.getXPosition() - this.duck.getXPosition();
 
-          if(distanceToObs1 > 0){
-            if(distanceToObs1 <= 0.5){
-                if(this.duck.getYPosition() > this.obstacle1.getUpperObstacleBound() || this.duck.getYPosition() < this.obstacle1.getLowerObstacleBound()){
-                //if(this.duck.getBox().intersectsBox(this.obstacle1.getBox())){
-                    console.log("POS: " + this.duck.getYPosition() + " OBS1_UP: " + this.obstacle1.getUpperObstacleBound() + " OBS1_LO: " + this.obstacle1.getLowerObstacleBound());
+          // Siempre que la distancia al obstaculo sea positiva
+          // Esto quiere decir que el obstaculo esta delante de PATO
+          if(distanceToObs1 < this.obstacle1.getWidthObstacle()/2 && distanceToObs1 > -(this.obstacle1.getWidthObstacle()/2)){
+            let duckBox = new THREE.Box3().setFromObject(this.duck);
+            let obstacleBox = new THREE.Box3().setFromObject(this.obstacle1);
+            if(!duckBox.intersectsBox(obstacleBox))
+              console.log("CHOCO!")
+            /*if(distanceToObs1 <= this.obstacle1.getWidthObstacle()/2){
+              
+                if(this.duck.getYPosition() > this.obstacle1.getUpperObstacleBound()+this.offset || this.duck.getYPosition() < this.obstacle1.getLowerObstacleBound()-this.offset){
+                    console.log("HE CHOCADO PORQUE ANCHO " + distanceToObs1 + " <= " + this.obstacle1.getWidthObstacle());
+                    console.log("POS: " + this.duck.getYPosition() + " OBS1_UP: " + this.obstacle1.getUpperObstacleBound() + " OBS1_LO: " + this.obstacle1.getLowerObstacleBound() + " WIDTH: " + this.obstacle1.getWidthObstacle());
                     this.loseLife();
                 }  
+            }*/
+            if(distanceToObs1 < 0 && distanceToObs1 > this.threshold){
+              this.increaseScore();
             }
           }
-          else if(distanceToObs1 > -0.1){
-            this.increaseScore();
-          }
 
-          if(distanceToObs2 > 0){
-            if(distanceToObs2 <= 0.5){
-                if(this.duck.getYPosition() > this.obstacle2.getUpperObstacleBound() || this.duck.getYPosition() < this.obstacle2.getLowerObstacleBound()){
-                //if(this.duck.getBox().intersectsBox(this.obstacle2.getBox())){
+
+          if(distanceToObs2 > -this.obstacle2.getWidthObstacle()){
+            if(distanceToObs2 <= this.obstacle2.getWidthObstacle()/2){
+                if(this.duck.getYPosition() > this.obstacle2.getUpperObstacleBound()+this.offset || this.duck.getYPosition() < this.obstacle2.getLowerObstacleBound()-this.offset){
+                    console.log("HE CHOCADO PORQUE " + distanceToObs2 + " <= " + this.obstacle2.getWidthObstacle());
                     console.log("POS: " + this.duck.getYPosition() + " OBS2_UP: " + this.obstacle2.getUpperObstacleBound() + " OBS2_LO: " + this.obstacle2.getLowerObstacleBound());
                     this.loseLife();
                 }  
             }
+            if(distanceToObs2 < 0 && distanceToObs2 > this.threshold){
+              this.increaseScore();
+            }
           }
-          else if(distanceToObs2 > -0.1){
-            this.increaseScore();
-          }
+
 
     
         // Mover el fondo

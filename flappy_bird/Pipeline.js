@@ -15,7 +15,8 @@ class Pipeline extends THREE.Mesh {
 
     // Parte de arriba
     this.size_y_up_part = 1.3;
-    var up_geometry = new THREE.BoxGeometry (2.3, this.size_y_up_part, 0);
+    this.width_up_part = 2.3;
+    var up_geometry = new THREE.BoxGeometry (this.width_up_part, this.size_y_up_part, 0);
     var up_texture = new THREE.TextureLoader().load('../imgs/pipeline_texture.jpg');
     var up_material = new THREE.MeshPhongMaterial ({map: up_texture});
     this.up_part = new THREE.Mesh(up_geometry, up_material);
@@ -48,13 +49,8 @@ class Pipeline extends THREE.Mesh {
   }
 
   getWidth(){
-    return this.width_down_part;
+    return (this.width_down_part + this.width_up_part) / 2;
   }
-    
-  update () {
-
-  }
-
 
 
 }
