@@ -10,6 +10,14 @@ renderer = null;
 gui = null;
 
 
+
+
+
+
+
+
+
+
 /// Se crea y configura un renderer WebGL
 /**
  * El renderer recorrerá el grafo de escena para procesarlo y crear la imagen resultante. 
@@ -76,6 +84,19 @@ $(function () {
   window.addEventListener ("resize", onWindowResize);
   window.addEventListener ("keydown", onDocumentKeyDown);
   window.addEventListener ("click", onClick);
+
+
+  var text2 = document.createElement('div');
+  text2.style.position = 'absolute';
+  //text2.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
+  text2.style.width = 200;
+  text2.style.height = 200;
+  text2.style.fontSize = '-webkit-xxx-large';
+  //text2.style.backgroundColor = "blue";
+  text2.innerHTML = "hi there!";
+  text2.style.top = window.innerHeight*0.1 + 'px';
+  text2.style.left = window.innerWidth/2 + 'px';
+  document.body.appendChild(text2);
   
   // Se crea una interfaz gráfica de usuario vacia
   //gui = new dat.GUI();
