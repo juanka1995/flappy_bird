@@ -148,10 +148,12 @@ class FlappyBird extends THREE.Scene {
           // Siempre que la distancia al obstaculo sea positiva
           // Esto quiere decir que el obstaculo esta delante de PATO
           if(distanceToObs1 < this.obstacle1.getWidthObstacle()/2 && distanceToObs1 > -(this.obstacle1.getWidthObstacle()/2)){
-            let duckBox = new THREE.Box3().setFromObject(this.duck);
-            let obstacleBox = new THREE.Box3().setFromObject(this.obstacle1);
-            if(obstacleBox.intersectsBox(duckBox)){
-              console.log("CHOCO!");
+            
+            let duckBox = this.duck.getBox();
+            let obstacleBoxes = this.obstacle1.getBoxes();
+            if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
+              console.log("CHOCO! en el 1");
+              this.loseLife();
             }
             /*if(distanceToObs1 <= this.obstacle1.getWidthObstacle()/2){
               
@@ -167,6 +169,28 @@ class FlappyBird extends THREE.Scene {
           }
 
 
+          if(distanceToObs2 < this.obstacle2.getWidthObstacle()/2 && distanceToObs2 > -(this.obstacle2.getWidthObstacle()/2)){
+            
+            let duckBox = this.duck.getBox();
+            let obstacleBoxes = this.obstacle2.getBoxes();
+            if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
+              console.log("CHOCO en el 2");
+              this.loseLife();
+            }
+            /*if(distanceToObs2 <= this.obstacle2.getWidthObstacle()/2){
+              
+                if(this.duck.getYPosition() > this.obstacle2.getUpperObstacleBound()+this.offset || this.duck.getYPosition() < this.obstacle2.getLowerObstacleBound()-this.offset){
+                    console.log("HE CHOCADO PORQUE ANCHO " + distanceToObs2 + " <= " + this.obstacle2.getWidthObstacle());
+                    console.log("POS: " + this.duck.getYPosition() + " OBS1_UP: " + this.obstacle2.getUpperObstacleBound() + " OBS1_LO: " + this.obstacle1.getLowerObstacleBound() + " WIDTH: " + this.obstacle1.getWidthObstacle());
+                    this.loseLife();
+                }  
+            }*/
+            if(distanceToObs2 < 0 && distanceToObs2 > this.threshold){
+              this.increaseScore();
+            }
+          }
+
+          /*
           if(distanceToObs2 > -this.obstacle2.getWidthObstacle()){
             if(distanceToObs2 <= this.obstacle2.getWidthObstacle()/2){
                 if(this.duck.getYPosition() > this.obstacle2.getUpperObstacleBound()+this.offset || this.duck.getYPosition() < this.obstacle2.getLowerObstacleBound()-this.offset){
@@ -178,7 +202,7 @@ class FlappyBird extends THREE.Scene {
             if(distanceToObs2 < 0 && distanceToObs2 > this.threshold){
               this.increaseScore();
             }
-          }
+          }*/
 
 
     

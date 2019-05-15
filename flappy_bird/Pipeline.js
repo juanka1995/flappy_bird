@@ -31,6 +31,8 @@ class Pipeline extends THREE.Mesh {
       this.pipeline.rotateZ(Math.PI);
     }
     this.add(this.pipeline);
+
+    this.box = new THREE.Box3();
   }
 
   updatePipelineHigger(size_y){
@@ -52,5 +54,8 @@ class Pipeline extends THREE.Mesh {
     return (this.width_down_part + this.width_up_part) / 2;
   }
 
+  getBox(){
+    return this.box.setFromObject(this);
+  }
 
 }

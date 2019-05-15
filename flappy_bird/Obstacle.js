@@ -87,10 +87,6 @@
     return this.center_y;
   }
 
-  getBox(){
-    return new THREE.Box3().setFromObject(this);
-  }
-
   getWidthObstacle(){
     return this.upper_pipeline.getWidth();
   }
@@ -109,6 +105,10 @@
         this.isOnTheMiddle = true;
       }
     }
+  }
+
+  getBoxes(){
+    return [this.upper_pipeline.getBox(),this.lower_pipeline.getBox()];
   }
 
 }
