@@ -147,10 +147,19 @@ class FlappyBird extends THREE.Scene {
 
           // Siempre que la distancia al obstaculo sea positiva
           // Esto quiere decir que el obstaculo esta delante de PATO
+
+          //Cuando PATO esta cerca de el obstaculo 1
+
           if(distanceToObs1 < this.obstacle1.getWidthObstacle()/2 && distanceToObs1 > -(this.obstacle1.getWidthObstacle()/2)){
             
+            //Se actualiza la caja de PATO y las cajas del obstaculo
+
             let duckBox = this.duck.getBox();
             let obstacleBoxes = this.obstacle1.getBoxes();
+
+
+            //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
+            
             if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
               console.log("CHOCO! en el 1");
               this.loseLife();
@@ -168,11 +177,18 @@ class FlappyBird extends THREE.Scene {
             }
           }
 
+          //Cuando PATO esta cerca de el obstaculo 2
+
 
           if(distanceToObs2 < this.obstacle2.getWidthObstacle()/2 && distanceToObs2 > -(this.obstacle2.getWidthObstacle()/2)){
             
+            //Se actualiza la caja de PATO y las cajas del obstaculo
+
             let duckBox = this.duck.getBox();
             let obstacleBoxes = this.obstacle2.getBoxes();
+
+            //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
+
             if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
               console.log("CHOCO en el 2");
               this.loseLife();
