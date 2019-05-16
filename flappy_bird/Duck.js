@@ -104,10 +104,10 @@ class Duck extends THREE.Object3D {
     this.animacionSubiendo.start();
   }
 
-  startFallAnimation(){
+  /*startFallAnimation(){
     this.rotation.set (0,0,0);
     TWEEN.removeAll();
-  }
+  }*/
 
   // Inicializacion de animaciones
 

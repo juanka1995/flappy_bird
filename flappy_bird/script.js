@@ -9,6 +9,12 @@ renderer = null;
 /// El objeto que referencia a la interfaz gráfica de usuario
 gui = null;
 
+score = null;
+
+lifes = null;
+
+
+
 
 
 
@@ -39,14 +45,25 @@ function createRenderer () {
 
 function onDocumentKeyDown(event) {
     var code = event.code;
-    if (code == "Space") {
+    if (code == "Space" && lifes.innerHTML > 0) {
       scene.startGame();
     }
 };
 
 function onClick(event) {
-  scene.startGame();
+  if(lifes.innerHTML > 0)
+    scene.startGame();
 };
+
+// Función callback para cambiar el valor de la puntuacion
+
+function changeScore(value){
+  score.innerHTML = value;
+}
+
+function changeLifes(value){
+  lifes.innerHTML = value;
+}
 
 /// Función que se encarga de renderizar un frame
 /**
@@ -71,6 +88,8 @@ function onWindowResize () {
   renderer.setSize (window.innerWidth, window.innerHeight);
 }
 
+
+
 /// La función principal
 $(function () {
   // Se crea el renderer
@@ -86,23 +105,29 @@ $(function () {
   window.addEventListener ("click", onClick);
 
 
-  var text2 = document.createElement('div');
-  text2.style.position = 'absolute';
-  //text2.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
-  text2.style.width = 200;
-  text2.style.height = 200;
-  text2.style.fontSize = '-webkit-xxx-large';
-  //text2.style.backgroundColor = "blue";
-  text2.innerHTML = "hi there!";
-  text2.style.top = window.innerHeight*0.1 + 'px';
-  text2.style.left = window.innerWidth/2 + 'px';
-  document.body.appendChild(text2);
+  score = document.createElement('div');
+  score.style.position = 'absolute';
+  score.style.fontSize = '-webkit-xxx-large';
+  score.innerHTML = "0";
+  score.style.top = window.innerHeight*0.1 + 'px';
+  score.style.left = window.innerWidth/2 + 'px';
+  document.body.appendChild(score);
+
+  lifes = document.createElement('div');
+  lifes.style.position = 'absolute';
+  //lifes.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
+  lifes.style.fontSize = '-webkit-xxx-large';
+  //lifes.style.backgroundColor = "blue";
+  lifes.innerHTML = "1";
+  lifes.style.top = window.innerHeight*0.1 + 'px';
+  lifes.style.left = window.innerWidth*0.1 + 'px';
+  document.body.appendChild(lifes);
   
   // Se crea una interfaz gráfica de usuario vacia
   //gui = new dat.GUI();
   
   // Se crea la escena. La escena es una instancia de nuestra propia clase encargada de crear y gestionar todos los elementos que intervienen en la escena.
-  scene = new FlappyBird (renderer.domElement);
+  scene = new FlappyBird (renderer.domElement,changeScore, changeLifes);
 
   // Finalmente, realizamos el primer renderizado.
   render();

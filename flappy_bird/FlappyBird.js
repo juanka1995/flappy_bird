@@ -5,7 +5,7 @@
  */
 
 class FlappyBird extends THREE.Scene {
-  constructor (unRenderer) {
+  constructor (unRenderer, scoreCallback, lifesCallback) {
     super();
 
     // Construimos los distinos elementos que tendremos en la escena
@@ -36,6 +36,8 @@ class FlappyBird extends THREE.Scene {
     // Umbral para determinar si PATO ha pasado un obstaculo
     this.threshold = -0.1;
     this.offset = 0.2;
+    this.changeScore = scoreCallback;
+    this.changeLifes = lifesCallback;
   }
   
   createCamera (unRenderer) {
@@ -162,7 +164,7 @@ class FlappyBird extends THREE.Scene {
             
             if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
               console.log("CHOCO! en el 1");
-              this.loseLife();
+              this.loseLife(this.changeLifes);
             }
             /*if(distanceToObs1 <= this.obstacle1.getWidthObstacle()/2){
               
@@ -173,7 +175,7 @@ class FlappyBird extends THREE.Scene {
                 }  
             }*/
             if(distanceToObs1 < 0 && distanceToObs1 > this.threshold){
-              this.increaseScore();
+              this.increaseScore(this.changeScore);
             }
           }
 
@@ -191,7 +193,7 @@ class FlappyBird extends THREE.Scene {
 
             if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
               console.log("CHOCO en el 2");
-              this.loseLife();
+              this.loseLife(this.changeLifes);
             }
             /*if(distanceToObs2 <= this.obstacle2.getWidthObstacle()/2){
               
@@ -202,7 +204,7 @@ class FlappyBird extends THREE.Scene {
                 }  
             }*/
             if(distanceToObs2 < 0 && distanceToObs2 > this.threshold){
-              this.increaseScore();
+              this.increaseScore(this.changeScore);
             }
           }
 
@@ -236,13 +238,15 @@ class FlappyBird extends THREE.Scene {
     this.duck.fly();
   }
 
-  increaseScore(){
+  increaseScore(callback){
     this.score += this.points; 
     console.log("SCORE:"+ this.score);
+    callback(this.score);
   }
 
-  loseLife(){
+  loseLife(callback){
     this.lifes -= 1;
     console.log("LIFES:" + this.lifes);
+    callback(this.lifes);
   }
 }
