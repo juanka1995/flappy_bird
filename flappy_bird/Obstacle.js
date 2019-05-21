@@ -106,6 +106,7 @@
     }
   }
 
+  // Funcion que resetea la posición inicial del obstaculo
   reset(){
     this.calculateNewCenter();
     this.obstacle.position.x = this.max_rigth_pos;
