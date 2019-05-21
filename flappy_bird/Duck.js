@@ -15,9 +15,9 @@ class Duck extends THREE.Object3D {
     // Variables de las animaciones
     this.ascent = 0.175;          // Incrementado o decrementado de posicion
     this.rotZ = 0;              // Vuelve a poner la rotacion en 0
-    this.ascentDuration = 250;     
-    this.clockwiseAnimationDuration = 50;
-    this.descentDuration = 100;
+    this.ascentDuration = 250;     // Duracion de la animacion de subida
+    this.clockwiseAnimationDuration = 50; // Duracion de la animacion de rotacion
+    this.descentDuration = 100;         // Animacion estandar de la bajada
     this.rotationBound = 0.5;  // Limite superior e inferior de rotacion en Z
     this.incrementalY = 2;   // Siguiente posicion en la que va a estar en Y: posActual = posActual + this.incrementalY
 
