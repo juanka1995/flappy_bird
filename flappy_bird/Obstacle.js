@@ -16,7 +16,7 @@
     this.calculateNewCenter();
     this.max_rigth_pos = this.rightBound + 2;
     this.max_left_pos = this.leftBound - 2;
-    this.isOnTheMiddle = false;
+    this.hasPassedMiddleOneTime = false;
     
     // Espacio entre la tubería de arriba y la de abajo del obstaculo
     this.space_y = 3;
@@ -76,9 +76,9 @@
     return this.max_rigth_pos;
   }
 
-  // Devuelve si el obstaculo ya ha pasado por el centro de la pantalla
-  getIsOnTheMiddle(){
-    return this.isOnTheMiddle;
+  // Devuelve si el obstaculo ya ha pasado por el centro de la pantalla una vez
+  gethasPassedMiddleOneTime(){
+    return this.hasPassedMiddleOneTime;
   }
 
   // Devuelve el centro del obstaculo calculado aleatoriamente
@@ -100,8 +100,8 @@
     // En caso contrario avanza de forma progresiva hacia la izquierda
     else{
       this.obstacle.position.x -= this.speed;
-      if(this.obstacle.position.x <= 0 && !this.isOnTheMiddle){
-        this.isOnTheMiddle = true;
+      if(this.obstacle.position.x <= 0 && !this.hasPassedMiddleOneTime){
+        this.hasPassedMiddleOneTime = true;
       }
     }
   }
@@ -111,7 +111,6 @@
     this.calculateNewCenter();
     this.obstacle.position.x = this.max_rigth_pos;
     this.generateNewObstaclePosition();
-    this.isOnTheMiddle = false;
   }
 
   // Devuelve las cajas de colision del obstaculo (tuberia superior e inferior)

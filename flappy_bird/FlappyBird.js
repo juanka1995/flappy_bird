@@ -42,6 +42,8 @@ class FlappyBird extends THREE.Scene {
     // Callbacks para actualizar interfaz de usuario (script.js)
     this.changeScore = scoreCallback;
     this.changeLifes = lifesCallback;
+    this.changeScore(this.score);
+    this.changeLifes(this.lifes);
   }
   
   createCamera (unRenderer) {
@@ -212,7 +214,7 @@ class FlappyBird extends THREE.Scene {
 
   // Función encargada de actualizar el movimiento de los obstaculos
   updateObstacleMovement(){
-    if(this.obstacle1.getIsOnTheMiddle()){
+    if(this.obstacle1.gethasPassedMiddleOneTime()){
       this.obstacle1.updateMovement();
       this.obstacle2.updateMovement();
     } else {
@@ -226,29 +228,19 @@ class FlappyBird extends THREE.Scene {
     this.duck.fly();
   }
 
-  resetGame(){
-    console.log("estoy aqui");
-    this.startedGame = false;
-    this.endGame = false;
-    this.lifes = 1;
-    this.score = 0;
-    this.duck.reset();
-    this.changeScore(this.score);
-    this.changeLifes(this.lifes);
-    this.obstacle1.reset();
-    this.obstacle2.reset();
-  }
-
+  // Función que devuelve si el juego a terminado o no
   getEndGame(){
     return this.endGame;
   }
 
+  // Callback para incrementar el score
   increaseScore(callback){
     this.score += this.points; 
     console.log("SCORE:"+ this.score);
     callback(this.score);
   }
 
+  // Callback para decrementar las vidas
   loseLife(callback){
     this.lifes -= 1;
     console.log("LIFES:" + this.lifes);

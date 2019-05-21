@@ -39,13 +39,17 @@ function onDocumentKeyDown(event) {
     }
     else if (code == "Space" && scene.getEndGame()){
       // alert("Puntuación: " + score.innerHTML);
-      scene.resetGame();
+      createNewScene();
     }
 };
 
 function onClick(event) {
-  if(!scene.getEndGame())
+  if(!scene.getEndGame()){
     scene.startGame();
+  }
+  else {
+    createNewScene();
+  }
 };
 
 // Función callback para cambiar el valor de la puntuacion
@@ -81,7 +85,10 @@ function onWindowResize () {
   renderer.setSize (window.innerWidth, window.innerHeight);
 }
 
-
+// Función encargada de crear una nueva escena
+function createNewScene(){
+  scene = new FlappyBird (renderer.domElement, changeScore, changeLifes);
+}
 
 /// La función principal
 $(function () {
@@ -121,7 +128,7 @@ $(function () {
   //gui = new dat.GUI();
   
   // Se crea la escena. La escena es una instancia de nuestra propia clase encargada de crear y gestionar todos los elementos que intervienen en la escena.
-  scene = new FlappyBird (renderer.domElement, changeScore, changeLifes);
+  createNewScene();
 
   // Finalmente, realizamos el primer renderizado.
   render();
