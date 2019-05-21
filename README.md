@@ -1,7 +1,7 @@
 # flappy_bird
 Flappy Bird game using Three.js
 
-#TODO:
+# TODO:
 
 - [ ] Hacer los objetos de bonus ( revolucion o lo que sea)
 - [ ] Hacer su colision (facil, igual que los obstaculos)
