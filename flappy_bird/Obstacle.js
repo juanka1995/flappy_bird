@@ -10,7 +10,7 @@
     var width_window = this.upperBound - this.lowerBound;
     var respect_space = 0.3;
 
-    // Obstacle position
+    // Posicion del obstaculo
     this.min = this.lowerBound + width_window*respect_space;
     this.max = this.upperBound - width_window*respect_space;
     this.calculateNewCenter();
@@ -18,13 +18,13 @@
     this.max_left_pos = this.leftBound - 2;
     this.isOnTheMiddle = false;
     
-    // Obstacle space to player can pass
+    // Espacio entre la tubería de arriba y la de abajo del obstaculo
     this.space_y = 3;
 
-    // Movement increase
+    // Incremento de velocidad del obstaculo
     this.speed = 0.1;
 
-    // Objeto pipeline
+    // Objetos tuberias que forman un obstaculo
     this.upper_pipeline = new Pipeline(true);
     this.lower_pipeline = new Pipeline(false);
     this.lower_pipeline.position.y = this.lowerBound;
@@ -36,77 +36,79 @@
     this.obstacle.position.x = this.max_rigth_pos;
     this.add(this.obstacle);
     
-    // Draw center obstacle
-    // var cube_geometry = new THREE.BoxGeometry (0.1,0.1,0);
-    // var cube_material = new THREE.MeshPhongMaterial({color: 0xFF0000});
-    // this.cube_center = new THREE.Mesh(cube_geometry, cube_material);
-    // this.cube_center.position.x = this.max_rigth_pos;
-    // this.add(this.cube_center);
-    
-    // Generate de first obstacle position
+    // Generamos la posición inicial del obstaculo
     this.generateNewObstaclePosition();
   }
     
+  // Función que posiciona el obstaculo (tubería de arriba y de abajo) en la nueva posición
   generateNewObstaclePosition(){
     this.upper_pipeline.updatePipelineHigger(this.upperBound - this.center_y - this.space_y/2);
     this.lower_pipeline.updatePipelineHigger(this.center_y - this.lowerBound - this.space_y/2);
-
-
-    // this.cube_center.position.y = this.center_y;
   }
 
+  // Función que calcula el nuevo centro del obstaculo de forma aleatoria
   calculateNewCenter(){
     this.center_y = this.min + Math.random() * (Math.abs(this.min)+this.max);
   }
 
+  // Funcion que devuelve el limite de la tuberia superior
   getUpperObstacleBound(){
     return this.upperBound - this.upper_pipeline.getSizeY() - 0.1;
   }
 
+  // Funcion que devuelve el limite de la tuberia inferior
   getLowerObstacleBound(){
-    return this.lowerBound + this.lower_pipeline.getSizeY() -0.1/*+ 0.15*/;
+    return this.lowerBound + this.lower_pipeline.getSizeY() -0.1;
   }
   
+  // Devuelve la coordenada X del obstaculo
   getXPosition(){
     return this.obstacle.position.x;
   }
 
+  // Devuelve el límite izquierdo hasta el que puede llegar el obstaculo
   getMaxLeftPos(){
     return this.max_left_pos;
   }
 
+  // Devuelve el límite derecho hasta el que puede llegar el obstaculo
   getMaxRigthPos(){
     return this.max_rigth_pos;
   }
 
+  // Devuelve si el obstaculo ya ha pasado por el centro de la pantalla
   getIsOnTheMiddle(){
     return this.isOnTheMiddle;
   }
 
+  // Devuelve el centro del obstaculo calculado aleatoriamente
   getObstacleCenter(){
     return this.center_y;
   }
 
+  // Devuelve como de ancho es el obstaculo
   getWidthObstacle(){
     return this.upper_pipeline.getWidth();
   }
 
+  // Actualiza el movimiento de la tubería
   updateMovement () {
+    // Si el obstaculo ha superado el limite izquierdo se resetea
     if(this.obstacle.position.x < this.max_left_pos){
       this.calculateNewCenter();
       this.obstacle.position.x = this.max_rigth_pos;
-      // this.cube_center.position.x = this.max_rigth_pos;
       this.generateNewObstaclePosition();
     }
+    // En caso contrario avanza de forma progresiva hacia la izquierda
     else{
       this.obstacle.position.x -= this.speed;
-      // this.cube_center.position.x -= this.speed;
       if(this.obstacle.position.x <= 0 && !this.isOnTheMiddle){
         this.isOnTheMiddle = true;
       }
     }
   }
 
+  // Devuelve las cajas de colision del obstaculo (tuberia superior e inferior)
   getBoxes(){
     return [this.upper_pipeline.getBox(),this.lower_pipeline.getBox()];
   }
