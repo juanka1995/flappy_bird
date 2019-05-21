@@ -9,3 +9,4 @@ Flappy Bird game using Three.js
 - [ ] Hacer las funciones de las colisiones (facil)
 - [ ] Hacer pantalla de puntuaciones
 - [X] Reiniciar el juego
+- [ ] Vidas de pato como patos
