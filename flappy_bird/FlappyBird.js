@@ -17,7 +17,7 @@ class FlappyBird extends THREE.Scene {
     // Tendremos una cámara con un control de movimiento con el ratón
     this.createCamera (unRenderer);
     
-    // Obstaculos
+    // Obstaculos de la escena
     this.next_obstacle = 2;
     this.obstacle1 = new Obstacle();
     this.add(this.obstacle1);
@@ -30,12 +30,16 @@ class FlappyBird extends THREE.Scene {
 
     // Variable que determina cuando el juego se inicia o no
     this.startedGame = false;
+    this.endGame = false;
     this.lifes = 1;
     this.score = 0;
     this.points = 1;
+
     // Umbral para determinar si PATO ha pasado un obstaculo
     this.threshold = -0.1;
     this.offset = 0.2;
+
+    // Callbacks para actualizar interfaz de usuario (script.js)
     this.changeScore = scoreCallback;
     this.changeLifes = lifesCallback;
   }
@@ -129,113 +133,113 @@ class FlappyBird extends THREE.Scene {
   
   update () {    
     // Si el juego ha iniciado se actualiza el resto del modelo
-
     if(this.startedGame){
       // Actualizar pato
       this.duck.update();
+      
+      // Mientras tenga vidas...
       if(this.lifes > 0){
+        // Actualizar movimiento de los obstaculos
+        this.updateObstacleMovement();
 
-          
-          // Actualizar obstaculos
-          if(this.obstacle1.getIsOnTheMiddle()){
-            this.obstacle1.updateMovement();
-            this.obstacle2.updateMovement();
-          } else {
-            this.obstacle1.updateMovement();
-          }
-
-          var distanceToObs1 = this.obstacle1.getXPosition() - this.duck.getXPosition();
-          var distanceToObs2 = this.obstacle2.getXPosition() - this.duck.getXPosition();
-
-          // Siempre que la distancia al obstaculo sea positiva
-          // Esto quiere decir que el obstaculo esta delante de PATO
-
-          //Cuando PATO esta cerca de el obstaculo 1
-
-          if(distanceToObs1 < this.obstacle1.getWidthObstacle()/2 && distanceToObs1 > -(this.obstacle1.getWidthObstacle()/2)){
-            
-            //Se actualiza la caja de PATO y las cajas del obstaculo
-
-            let duckBox = this.duck.getBox();
-            let obstacleBoxes = this.obstacle1.getBoxes();
-
-
-            //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
-            
-            if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
-              console.log("CHOCO! en el 1");
-              this.loseLife(this.changeLifes);
-            }
-            /*if(distanceToObs1 <= this.obstacle1.getWidthObstacle()/2){
-              
-                if(this.duck.getYPosition() > this.obstacle1.getUpperObstacleBound()+this.offset || this.duck.getYPosition() < this.obstacle1.getLowerObstacleBound()-this.offset){
-                    console.log("HE CHOCADO PORQUE ANCHO " + distanceToObs1 + " <= " + this.obstacle1.getWidthObstacle());
-                    console.log("POS: " + this.duck.getYPosition() + " OBS1_UP: " + this.obstacle1.getUpperObstacleBound() + " OBS1_LO: " + this.obstacle1.getLowerObstacleBound() + " WIDTH: " + this.obstacle1.getWidthObstacle());
-                    this.loseLife();
-                }  
-            }*/
-            if(distanceToObs1 < 0 && distanceToObs1 > this.threshold){
-              this.increaseScore(this.changeScore);
-            }
-          }
-
-          //Cuando PATO esta cerca de el obstaculo 2
-
-
-          if(distanceToObs2 < this.obstacle2.getWidthObstacle()/2 && distanceToObs2 > -(this.obstacle2.getWidthObstacle()/2)){
-            
-            //Se actualiza la caja de PATO y las cajas del obstaculo
-
-            let duckBox = this.duck.getBox();
-            let obstacleBoxes = this.obstacle2.getBoxes();
-
-            //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
-
-            if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
-              console.log("CHOCO en el 2");
-              this.loseLife(this.changeLifes);
-            }
-            /*if(distanceToObs2 <= this.obstacle2.getWidthObstacle()/2){
-              
-                if(this.duck.getYPosition() > this.obstacle2.getUpperObstacleBound()+this.offset || this.duck.getYPosition() < this.obstacle2.getLowerObstacleBound()-this.offset){
-                    console.log("HE CHOCADO PORQUE ANCHO " + distanceToObs2 + " <= " + this.obstacle2.getWidthObstacle());
-                    console.log("POS: " + this.duck.getYPosition() + " OBS1_UP: " + this.obstacle2.getUpperObstacleBound() + " OBS1_LO: " + this.obstacle1.getLowerObstacleBound() + " WIDTH: " + this.obstacle1.getWidthObstacle());
-                    this.loseLife();
-                }  
-            }*/
-            if(distanceToObs2 < 0 && distanceToObs2 > this.threshold){
-              this.increaseScore(this.changeScore);
-            }
-          }
-
-          /*
-          if(distanceToObs2 > -this.obstacle2.getWidthObstacle()){
-            if(distanceToObs2 <= this.obstacle2.getWidthObstacle()/2){
-                if(this.duck.getYPosition() > this.obstacle2.getUpperObstacleBound()+this.offset || this.duck.getYPosition() < this.obstacle2.getLowerObstacleBound()-this.offset){
-                    console.log("HE CHOCADO PORQUE " + distanceToObs2 + " <= " + this.obstacle2.getWidthObstacle());
-                    console.log("POS: " + this.duck.getYPosition() + " OBS2_UP: " + this.obstacle2.getUpperObstacleBound() + " OBS2_LO: " + this.obstacle2.getLowerObstacleBound());
-                    this.loseLife();
-                }  
-            }
-            if(distanceToObs2 < 0 && distanceToObs2 > this.threshold){
-              this.increaseScore();
-            }
-          }*/
-
-
+        // Comprobar que no se producen colisiones entre los obstaculos y el pato
+        this.checkObstaclesCollisions();
     
         // Mover el fondo
-        this.time++;
-        this.texture.offset.x = this.time*0.0035;
+        this.updateBackgroundMovement();
+      }
+      // Si me quedo sin vidas
+      else {
+        this.endGame = true;
+      }
+    }
+  }
+
+  // Función encargada de actualizar el movimiento del fondo
+  updateBackgroundMovement(){
+    this.time++;
+    this.texture.offset.x = this.time*0.0035;
+  }
+
+  // Función encargada de comprobar si el pato colisiona con los obstaculos
+  checkObstaclesCollisions(){
+    // Calculamos las distancias del pato a los obstaculos
+    var distanceToObs1 = this.obstacle1.getXPosition() - this.duck.getXPosition();
+    var distanceToObs2 = this.obstacle2.getXPosition() - this.duck.getXPosition();
+
+    // Siempre que la distancia al obstaculo sea positiva
+    // Esto quiere decir que el obstaculo esta delante de PATO
+
+    //Cuando PATO esta cerca de el obstaculo 1
+    if(distanceToObs1 < this.obstacle1.getWidthObstacle()/2 && distanceToObs1 > -(this.obstacle1.getWidthObstacle()/2)){
+      
+      //Se actualiza la caja de PATO y las cajas del obstaculo
+      let duckBox = this.duck.getBox();
+      let obstacleBoxes = this.obstacle1.getBoxes();
+
+
+      //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
+      if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
+        console.log("CHOCO! en el 1");
+        this.loseLife(this.changeLifes);
+      }
+      
+      // Si el pato pasa la tubería 1 incrementamos el score
+      if(distanceToObs1 < 0 && distanceToObs1 > this.threshold){
+        this.increaseScore(this.changeScore);
+      }
     }
 
+    //Cuando PATO esta cerca de el obstaculo 2
+    if(distanceToObs2 < this.obstacle2.getWidthObstacle()/2 && distanceToObs2 > -(this.obstacle2.getWidthObstacle()/2)){
+      
+      //Se actualiza la caja de PATO y las cajas del obstaculo
+      let duckBox = this.duck.getBox();
+      let obstacleBoxes = this.obstacle2.getBoxes();
+
+      //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
+      if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
+        console.log("CHOCO en el 2");
+        this.loseLife(this.changeLifes);
+      }
+
+      // Si el pato pasa la tubería 2 incrementamos el score
+      if(distanceToObs2 < 0 && distanceToObs2 > this.threshold){
+        this.increaseScore(this.changeScore);
+      }
+    }
   }
-}
+
+  // Función encargada de actualizar el movimiento de los obstaculos
+  updateObstacleMovement(){
+    if(this.obstacle1.getIsOnTheMiddle()){
+      this.obstacle1.updateMovement();
+      this.obstacle2.updateMovement();
+    } else {
+      this.obstacle1.updateMovement();
+    }
+  }
 
   // Función que se encarga de iniciar el juego
   startGame(){
     this.startedGame = true;
     this.duck.fly();
+  }
+
+  resetGame(){
+    console.log("estoy aqui");
+    this.startedGame = false;
+    this.lifes = 1;
+    this.score = 0;
+    this.changeScore(this.score);
+    this.changeLifes(this.lifes);
+    this.obstacle1.generateNewObstaclePosition();
+    this.obstacle2.generateNewObstaclePosition();
+    this.setEndGame(true);
+  }
+
+  getEndGame(){
+    return this.endGame;
   }
 
   increaseScore(callback){

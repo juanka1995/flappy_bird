@@ -2,6 +2,7 @@
 class Pipeline extends THREE.Mesh {
   constructor(isLower) {
     super();
+    // Booleano encargado de definir si es una tubería superior o inferior
     this.isLower = isLower;
 
     // Parte de abajo
@@ -32,28 +33,29 @@ class Pipeline extends THREE.Mesh {
     }
     this.add(this.pipeline);
 
+    // Caja de colisión para la tubería
     this.box = new THREE.Box3();
   }
 
+  // Función encargada de poner el largo de la tubería al tamaño pasado por parametro
   updatePipelineHigger(size_y){
     var scale_factor = (size_y-this.size_y_up_part)/this.size_y_down_part;
-    // console.log('Size_y before: ' + (this.size_y_down_part + this.size_y_up_part));
     this.size_y_down_part *= scale_factor;
     this.down_part.geometry.applyMatrix(new THREE.Matrix4().makeScale(1, scale_factor, 1));
     this.up_part.position.y = this.size_y_down_part + 0.5;
-
-    // console.log('Scale factor: ' + scale_factor);
-    // console.log('Size_y after: ' + (this.size_y_down_part + this.size_y_up_part));
   }
 
+  // Devuelve la altura total de la tubería
   getSizeY(){
     return this.size_y_down_part + this.size_y_up_part;
   }
 
+  // Devuelve el ancho medio de la tubería
   getWidth(){
     return (this.width_down_part + this.width_up_part) / 2;
   }
 
+  // Devuelve la caja de colisión de la tubería
   getBox(){
     return this.box.setFromObject(this);
   }

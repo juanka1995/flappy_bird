@@ -10,18 +10,7 @@ renderer = null;
 gui = null;
 
 score = null;
-
 lifes = null;
-
-
-
-
-
-
-
-
-
-
 
 
 /// Se crea y configura un renderer WebGL
@@ -128,7 +117,7 @@ $(function () {
   //gui = new dat.GUI();
   
   // Se crea la escena. La escena es una instancia de nuestra propia clase encargada de crear y gestionar todos los elementos que intervienen en la escena.
-  scene = new FlappyBird (renderer.domElement,changeScore, changeLifes);
+  scene = new FlappyBird (renderer.domElement, changeScore, changeLifes);
 
   // Finalmente, realizamos el primer renderizado.
   render();
