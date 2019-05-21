@@ -145,14 +145,14 @@ class FlappyBird extends THREE.Scene {
         // Comprobar que no se producen colisiones entre los obstaculos y el pato
         this.checkObstaclesCollisions();
     
-        // Mover el fondo
-        this.updateBackgroundMovement();
       }
       // Si me quedo sin vidas
       else {
         this.endGame = true;
       }
     }
+    // Mover el fondo
+    this.updateBackgroundMovement();
   }
 
   // Función encargada de actualizar el movimiento del fondo
@@ -229,13 +229,14 @@ class FlappyBird extends THREE.Scene {
   resetGame(){
     console.log("estoy aqui");
     this.startedGame = false;
+    this.endGame = false;
     this.lifes = 1;
     this.score = 0;
+    this.duck.reset();
     this.changeScore(this.score);
     this.changeLifes(this.lifes);
-    this.obstacle1.generateNewObstaclePosition();
-    this.obstacle2.generateNewObstaclePosition();
-    this.setEndGame(true);
+    this.obstacle1.reset();
+    this.obstacle2.reset();
   }
 
   getEndGame(){

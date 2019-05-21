@@ -95,9 +95,7 @@
   updateMovement () {
     // Si el obstaculo ha superado el limite izquierdo se resetea
     if(this.obstacle.position.x < this.max_left_pos){
-      this.calculateNewCenter();
-      this.obstacle.position.x = this.max_rigth_pos;
-      this.generateNewObstaclePosition();
+      this.reset();
     }
     // En caso contrario avanza de forma progresiva hacia la izquierda
     else{
@@ -106,6 +104,13 @@
         this.isOnTheMiddle = true;
       }
     }
+  }
+
+  reset(){
+    this.calculateNewCenter();
+    this.obstacle.position.x = this.max_rigth_pos;
+    this.generateNewObstaclePosition();
+    this.isOnTheMiddle = false;
   }
 
   // Devuelve las cajas de colision del obstaculo (tuberia superior e inferior)

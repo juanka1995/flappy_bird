@@ -34,13 +34,17 @@ function createRenderer () {
 
 function onDocumentKeyDown(event) {
     var code = event.code;
-    if (code == "Space" && lifes.innerHTML > 0) {
+    if (code == "Space" && !scene.getEndGame()) {
       scene.startGame();
+    }
+    else if (code == "Space" && scene.getEndGame()){
+      // alert("Puntuación: " + score.innerHTML);
+      scene.resetGame();
     }
 };
 
 function onClick(event) {
-  if(lifes.innerHTML > 0)
+  if(!scene.getEndGame())
     scene.startGame();
 };
 
