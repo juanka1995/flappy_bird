@@ -188,6 +188,7 @@ class Duck extends THREE.Object3D {
     TWEEN.removeAll();
     this.position.set (0,0,this.z);
     this.rotation.set (0,0,0);
+    this.y = 0;
   }
 
 }
