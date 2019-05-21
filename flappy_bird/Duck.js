@@ -20,6 +20,7 @@ class Duck extends THREE.Object3D {
     this.rotZ = 0;              // Vuelve a poner la rotacion en 0
     this.duracionSubida = 250;     
     this.duracionAnimacionHoraria = 50;
+    this.duracionBajada = 75;
     this.duracionAnimacionAntihoraria = this.duracionAnimacionHoraria * 1.5;
     this.limiteRotacion = 0.5;  // Limite superior e inferior de rotacion en Z
     this.incrementoEnY = 2;   // Siguiente posicion en la que va a estar en Y: posActual = posActual + this.incrementoEnY
@@ -100,35 +101,19 @@ class Duck extends THREE.Object3D {
     this.y = this.nuevaPosicion.y;
     // Se define la nueva posicion en la animacion con la duracion
     this.animacionSubiendo.to(this.nuevaPosicion, this.duracionSubida);
+    this.animacionBajando.to({y: this.lowerBound}, (this.nuevaPosicion.y - this.lowerBound)*this.duracionBajada)
     // Comienza la animacion
     this.animacionSubiendo.start();
   }
 
-  /*startFallAnimation(){
-    this.rotation.set (0,0,0);
-    TWEEN.removeAll();
-  }*/
-
   // Inicializacion de animaciones
-
   instanciateAnimations(){
 
-    var that= this;
-
-    /* 
-        this.posicionActual es la variable que va a estar actualizandose en todo momento
-        .to indica a donde ir y la duracion de la animacion
-        .easing indica como es la animacion -> https://sole.github.io/tween.js/examples/03_graphs.html
-        .onUpdate define la funcion a hacer cada vez que actualiza el movimiento
-            ahi dentro se actualiza el "this.y"
-        .onComplete realiza la funcion despues de terminar la animacion
-
-        .chain en la linea 176 encadena las animaciones cuando uno termina empieza el otro...
-    */
+    var that = this;
 
     this.animacionBajando = new TWEEN.Tween(this.posicionActual)
                     .to( {y: that.lowerBound}, that.duracionBajada)
-                    .easing(TWEEN.Easing.Linear.None)
+                    .easing(TWEEN.Easing.Quadratic.In)
                     .onUpdate(function() {
                         that.y = that.posicionActual.y;
                         that.position.set (0,that.posicionActual.y,that.z);
@@ -139,7 +124,6 @@ class Duck extends THREE.Object3D {
 
 
     this.animacionSubiendo = new TWEEN.Tween(this.posicionActual)
-                    .to( 1, that.duracionSubida)
                     .easing(TWEEN.Easing.Linear.None)
                     .onUpdate(function() {
                         that.y = that.posicionActual.y;
@@ -149,20 +133,7 @@ class Duck extends THREE.Object3D {
                     })
                     .onComplete( function () {that.posicionActual.y = that.y});
 
-    /*this.rotacionHoraria = new TWEEN.Tween({y: that.y})
-    .to({y: 0}, that.duracionAnimacionHoraria)
-    .onUpdate( function ( ) {
-        that.rotZ+=that.subida;
-
-        if(that.rotZ > that.limiteRotacion){
-          that.rotZ = that.limiteRotacion;
-        }
-
-        that.rotation.set (0,0,that.rotZ);
-        //console.log("rotacionHoraria: " + that.rotZ);
-    } )*/
-
-    this.rotacionAntiHoraria = new TWEEN.Tween({y: that.y})
+    this.rotacionHoraria = new TWEEN.Tween({y: that.y})
     .to({y: 0}, that.duracionAnimacionAntihoraria)
     .onUpdate( function ( ) {
         that.rotZ-=that.subida;
@@ -172,13 +143,11 @@ class Duck extends THREE.Object3D {
         }
 
         that.rotation.set (0,0,that.rotZ);
-        //console.log("rotacionAntiHoraria: " + that.rotZ);
     } )
 
 
-    //this.rotacionHoraria.chain(this.animacionSubiendo);
-    this.animacionSubiendo.chain(this.rotacionAntiHoraria);
-    this.rotacionAntiHoraria.chain(this.animacionBajando);
+    this.animacionSubiendo.chain(this.rotacionHoraria);
+    this.rotacionHoraria.chain(this.animacionBajando);
   }
 
   getXPosition(){
