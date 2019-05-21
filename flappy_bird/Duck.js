@@ -183,6 +183,10 @@ class Duck extends THREE.Object3D {
     return this.box.setFromObject(this);
   }
 
-  // 
+  // Pone a PATO en su posicion original
+  reset(){
+    this.position.set (0,0,this.z);
+    this.rotation.set (0,0,0);
+  }
 
 }
