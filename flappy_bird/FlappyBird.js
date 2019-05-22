@@ -38,7 +38,16 @@ class FlappyBird extends THREE.Scene {
     // Umbral para determinar si PATO ha pasado un obstaculo
     this.threshold = -0.1;
     this.offset = 0.2;
-
+    
+    // Corazones para las vidas
+    this.life_hearts = [];
+    var first_heart_position = new THREE.Vector3(-12.5, 6.8, 0.5);
+    var first_life = new Heart(0.04, first_heart_position);
+    this.life_hearts.push(first_life);
+    for (let i = 0; i < this.life_hearts.length; i++) {
+      this.add(this.life_hearts[i]);
+    }
+    
     // Callbacks para actualizar interfaz de usuario (script.js)
     this.changeScore = scoreCallback;
     this.changeLifes = lifesCallback;

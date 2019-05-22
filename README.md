@@ -10,3 +10,4 @@ Flappy Bird game using Three.js
 - [ ] Hacer pantalla de puntuaciones
 - [X] Reiniciar el juego
 - [ ] Vidas de pato como patos
+- [ ] Pato muere al tocar el suelo

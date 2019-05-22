@@ -77,6 +77,12 @@ function render() {
   
   // Por último, se le pide al renderer que renderice la escena que capta una determinada cámara, que nos la proporciona la propia escena.
   renderer.render(scene, scene.getCamera());
+
+  // Actualizar posición de los divs score y lifes
+  score.style.top = window.innerHeight*0.1 + 'px';
+  score.style.left = window.innerWidth/2 + 'px';
+  lifes.style.top = window.innerHeight*0.1 + 'px';
+  lifes.style.left = window.innerWidth*0.1 + 'px';
 }
 
 /// Función que actualiza la razón de aspecto de la cámara y el tamaño de la imagen que genera el renderer en función del tamaño que tenga la ventana
@@ -104,23 +110,22 @@ $(function () {
   window.addEventListener ("keydown", onDocumentKeyDown);
   window.addEventListener ("click", onClick);
 
-
+  // DIV para la puntuacion
   score = document.createElement('div');
   score.style.position = 'absolute';
   score.style.fontSize = '-webkit-xxx-large';
   score.style.fontFamily = 'Verdana, Geneva, sans-serif'
-  score.innerHTML = "0";
   score.style.top = window.innerHeight*0.1 + 'px';
   score.style.left = window.innerWidth/2 + 'px';
   document.body.appendChild(score);
 
+  // DIV para las vidas
   lifes = document.createElement('div');
   lifes.style.position = 'absolute';
   //lifes.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
-  lifes.style.fontSize = '-webkit-xxx-large';
+  lifes.style.fontSize = 'xx-large';
   lifes.style.fontFamily = 'Verdana, Geneva, sans-serif'
   //lifes.style.backgroundColor = "blue";
-  lifes.innerHTML = "1";
   lifes.style.top = window.innerHeight*0.1 + 'px';
   lifes.style.left = window.innerWidth*0.1 + 'px';
   document.body.appendChild(lifes);
