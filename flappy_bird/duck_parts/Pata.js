@@ -11,7 +11,7 @@ class Pata extends THREE.Mesh {
     // Las primitivas básicas se crean centradas en el origen
     // Se puede modificar su posición con respecto al sistema de coordenadas local con una transformación aplicada directamente a la geometría.
     // Como material se crea uno a partir de un color
-    this.material = new THREE.MeshPhongMaterial({color: 0xffa726});
+    this.material = new THREE.MeshPhongMaterial({color: 0x4d3300});
     this.geometry.translate(0, this.y/2, 0);
     this.posZ = posZ;
     this.posY = posY;

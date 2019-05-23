@@ -12,4 +12,4 @@ Flappy Bird game using Three.js
 - [X] Vidas de pato como corazones
 - [ ] Pato muere al tocar el suelo
 - [ ] Hacer que el pato no traspase las tuberias por arriba
-- [ ] Hacer parpadeo al perder vida
+- [X] Hacer parpadeo al perder vida

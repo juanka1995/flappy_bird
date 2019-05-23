@@ -14,7 +14,7 @@ class Ala extends THREE.Mesh {
     // Las primitivas básicas se crean centradas en el origen
     // Se puede modificar su posición con respecto al sistema de coordenadas local con una transformación aplicada directamente a la geometría.
     // Como material se crea uno a partir de un color
-    this.material = new THREE.MeshPhongMaterial({color: 0xffffff});
+    this.material = new THREE.MeshPhongMaterial({color: 0xe68a00});
     this.posZ = posZ;
     this.posY = posY;
     if(posZ < 0){

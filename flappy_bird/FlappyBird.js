@@ -159,6 +159,19 @@ class FlappyBird extends THREE.Scene {
       var finStopCollisions = new Date();
       if((finStopCollisions.getTime() - this.iniStopCollisions.getTime())/1000 >= 1.0){
         this.detectCollisions = true;
+        this.duck.visible = true;
+      }
+      else {
+        // Hacemos parpadear el pato
+        if(!this.endGame){
+          var module_value = ((finStopCollisions.getTime() - this.iniStopCollisions.getTime())/1000)%0.3;
+          if(module_value <= 0.02){
+            this.duck.visible = !this.duck.visible;
+          }
+        }
+        else{
+          this.duck.visible = true;
+        }
       }
     }
     
