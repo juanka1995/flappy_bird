@@ -115,22 +115,14 @@ $(function () {
   score.style.position = 'absolute';
   score.style.fontSize = '-webkit-xxx-large';
   score.style.fontFamily = 'Verdana, Geneva, sans-serif'
-  score.style.top = window.innerHeight*0.1 + 'px';
-  score.style.left = window.innerWidth/2 + 'px';
   document.body.appendChild(score);
 
   // DIV para las vidas
   lifes = document.createElement('div');
   lifes.style.position = 'absolute';
-  //lifes.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
   lifes.style.fontSize = 'xx-large';
   lifes.style.fontFamily = 'Verdana, Geneva, sans-serif'
-  //lifes.style.backgroundColor = "blue";
-  lifes.style.top = window.innerHeight*0.1 + 'px';
-  lifes.style.left = window.innerWidth*0.1 + 'px';
   document.body.appendChild(lifes);
-  // Se crea una interfaz gráfica de usuario vacia
-  //gui = new dat.GUI();
   
   // Se crea la escena. La escena es una instancia de nuestra propia clase encargada de crear y gestionar todos los elementos que intervienen en la escena.
   createNewScene();

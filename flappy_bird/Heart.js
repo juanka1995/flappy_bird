@@ -1,43 +1,47 @@
 
 class Heart extends THREE.Object3D {
-    constructor(size_, position_){
+    constructor(p_position = new THREE.Vector3(-12.5, 6.5, 0), p_size = 1){
         super();
 
-        this.size_ = size_;
-        this.position_ = position_;
+        this.size_ = p_size;
+        this.position_ = p_position;
 
-        var heart = this;
-        var mtlLoader = new THREE.MTLLoader();
-        mtlLoader.setPath('./obj/heart/');
-        mtlLoader.load('12190_Heart_v1_L3.mtl', function (materials) {
-    
-            materials.preload();
-    
-            // Una vez cargada la textura, se carga el objeto
-            var objLoader = new THREE.OBJLoader();
-            objLoader.setMaterials(materials);
-            objLoader.setPath('./obj/heart/');
-            objLoader.load('12190_Heart_v1_L3.obj', function (object) {
-                
-                object.applyMatrix(new THREE.Matrix4().makeScale(size_, size_, size_));
-                object.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI/2));
-                object.applyMatrix(new THREE.Matrix4().makeTranslation(position_.x, position_.y, position_.z));
-                heart.add(object);
-            },
-            function (xhr){
-              console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-            },
-            function (error){
-              console.log( 'Ocurrió un error al cargar el modelo' );
-            });
-        });
+        var x = 0, y = 0;
+        var heartShape = new THREE.Shape();
+        heartShape.moveTo( x + 5, y + 5 );
+        heartShape.bezierCurveTo( x + 5, y + 5, x + 4, y, x, y );
+        heartShape.bezierCurveTo( x - 6, y, x - 6, y + 7,x - 6, y + 7 );
+        heartShape.bezierCurveTo( x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19 );
+        heartShape.bezierCurveTo( x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7 );
+        heartShape.bezierCurveTo( x + 16, y + 7, x + 16, y, x + 10, y );
+        heartShape.bezierCurveTo( x + 7, y, x + 5, y + 5, x + 5, y + 5 );
+
+        var geometry = new THREE.ShapeBufferGeometry(heartShape);
+        geometry.applyMatrix(new THREE.Matrix4().makeScale(0.035, 0.035, 0.035));
+        geometry.applyMatrix(new THREE.Matrix4().makeRotationZ(Math.PI));
+        geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0.25, 1, 0.5));
+        var material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        var mesh = new THREE.Mesh(geometry, material) ;
+        this.add(mesh);
+        this.position.x += this.position_.x;
+        this.position.y += this.position_.y;
+        this.position.z += this.position_.z;
+        this.scale.set(this.size_, this.size_, this.size_);
     }
 
+    // Devuelve una copia de la posición actual del corazon
     getPosition(){
-        return this.position_;
+        return this.position_.clone();
     }
 
+    // Devuelve el tamaño escalado actual del corazon
     getSize(){
         return this.size_;
+    }
+
+    // Actualiza la posición del eje X del corazon
+    updateXPosition(new_x_position){
+        this.position_.x = new_x_position;
+        this.position.x = this.position_.x;
     }
 }

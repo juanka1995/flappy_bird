@@ -1,4 +1,3 @@
- 
 /// La clase fachada del modelo
 /**
  * Usaremos una clase derivada de la clase Scene de Three.js para llevar el control de la escena y de todo lo que ocurre en ella.
@@ -16,6 +15,9 @@ class FlappyBird extends THREE.Scene {
     
     // Tendremos una cámara con un control de movimiento con el ratón
     this.createCamera (unRenderer);
+
+    // Ancho de pantalla por defecto
+    this.innerWidth = 1680;
     
     // Obstaculos de la escena
     this.next_obstacle = 2;
@@ -31,9 +33,10 @@ class FlappyBird extends THREE.Scene {
     // Variable que determina cuando el juego se inicia o no
     this.startedGame = false;
     this.endGame = false;
-    this.lifes = 1;
     this.score = 0;
     this.points = 1;
+    this.detectCollisions = true;
+    this.iniStopCollisions = null;
 
     // Umbral para determinar si PATO ha pasado un obstaculo
     this.threshold = -0.1;
@@ -41,18 +44,15 @@ class FlappyBird extends THREE.Scene {
     
     // Corazones para las vidas
     this.life_hearts = [];
-    var first_heart_position = new THREE.Vector3(-12.5, 6.8, 0.5);
-    var first_life = new Heart(0.04, first_heart_position);
+    this.space_between_hearts = 0.85;
+    this.firt_heart_position = new THREE.Vector3(-12.5, 6.5, 0);
+    var first_life = new Heart(this.firt_heart_position);
     this.life_hearts.push(first_life);
-    for (let i = 0; i < this.life_hearts.length; i++) {
-      this.add(this.life_hearts[i]);
-    }
+    this.add(this.life_hearts[this.life_hearts.length - 1]);
     
     // Callbacks para actualizar interfaz de usuario (script.js)
     this.changeScore = scoreCallback;
-    this.changeLifes = lifesCallback;
     this.changeScore(this.score);
-    this.changeLifes(this.lifes);
   }
   
   createCamera (unRenderer) {
@@ -142,28 +142,68 @@ class FlappyBird extends THREE.Scene {
     this.camera.updateProjectionMatrix();
   }
   
-  update () {    
+  update () {
+    // Si cambia el ancho de la ventana...
+    if(window.innerWidth != this.innerWidth){
+      
+      // Actualizo la posición de las vidas corazon
+      this.correctLifeHeartsPosition();
+
+      // Actualizamos el tamaño de la ventana guardado por el real actual
+      this.innerWidth = window.innerWidth;
+    }
+
+    // Si la detección de colisiones está desactivada...
+    if(!this.detectCollisions){
+      // Esperamos 1 segundo hasta activar la detección de nuevo
+      var finStopCollisions = new Date();
+      if((finStopCollisions.getTime() - this.iniStopCollisions.getTime())/1000 >= 1.0){
+        this.detectCollisions = true;
+      }
+    }
+    
     // Si el juego ha iniciado se actualiza el resto del modelo
     if(this.startedGame){
       // Actualizar pato
       this.duck.update();
       
       // Mientras tenga vidas...
-      if(this.lifes > 0){
+      if(this.life_hearts.length > 0){
         // Actualizar movimiento de los obstaculos
         this.updateObstacleMovement();
 
         // Comprobar que no se producen colisiones entre los obstaculos y el pato
-        this.checkObstaclesCollisions();
-    
+        if(this.detectCollisions){
+          this.checkObstaclesCollisions();
+        }
       }
       // Si me quedo sin vidas
       else {
         this.endGame = true;
       }
     }
-    // Mover el fondo
-    this.updateBackgroundMovement();
+    if(!this.endGame){
+      // Mover el fondo
+      this.updateBackgroundMovement();
+    }
+  }
+
+  // Función encargada de corregir la posición de las vidas corazon si el tamaño de la ventana cambia
+  correctLifeHeartsPosition(){
+    // Cambiamos la posición del primer corazon
+    var new_first_x_position = this.calculateFirstHeartPosition();
+    this.life_hearts[0].updateXPosition(new_first_x_position);
+
+    // Cambia la posición del resto de corazones (vidas)
+    for (let i = 1; i < this.life_hearts.length; i++) {
+      let new_x_position = this.life_hearts[i-1].getPosition().x + this.space_between_hearts;
+      this.life_hearts[i].updateXPosition(new_x_position);
+    }
+  }
+
+  // Calcula la nueva poisición del primer corazón respecto al ancho de pantalla
+  calculateFirstHeartPosition(){
+    return window.innerWidth * this.firt_heart_position.x / this.innerWidth;
   }
 
   // Función encargada de actualizar el movimiento del fondo
@@ -192,7 +232,7 @@ class FlappyBird extends THREE.Scene {
       //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
       if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
         console.log("CHOCO! en el 1");
-        this.loseLife(this.changeLifes);
+        this.loseLife();
       }
       
       // Si el pato pasa la tubería 1 incrementamos el score
@@ -211,7 +251,7 @@ class FlappyBird extends THREE.Scene {
       //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
       if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
         console.log("CHOCO en el 2");
-        this.loseLife(this.changeLifes);
+        this.loseLife();
       }
 
       // Si el pato pasa la tubería 2 incrementamos el score
@@ -247,12 +287,25 @@ class FlappyBird extends THREE.Scene {
     this.score += this.points; 
     console.log("SCORE:"+ this.score);
     callback(this.score);
+    this.winLife();
   }
-
+  
   // Callback para decrementar las vidas
-  loseLife(callback){
-    this.lifes -= 1;
-    console.log("LIFES:" + this.lifes);
-    callback(this.lifes);
+  loseLife(){
+    this.remove(this.life_hearts.pop());
+    console.log("LIFES:" + this.life_hearts.length);
+    this.detectCollisions = false;
+    this.iniStopCollisions = new Date();
+  }
+  
+  // Función que se encarga de añadir un nuevo corazon al juego
+  winLife(){
+    var lastHeart = this.life_hearts[this.life_hearts.length - 1];
+    var sizeHeart = lastHeart.getSize();
+    var newPosition = lastHeart.getPosition();
+    newPosition.x += this.space_between_hearts;
+    var newHeart = new Heart(newPosition, sizeHeart);
+    this.life_hearts.push(newHeart);
+    this.add(this.life_hearts[this.life_hearts.length - 1]);
   }
 }
