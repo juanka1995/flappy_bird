@@ -33,5 +33,6 @@ body{
 }
 
 #lifes{
-  font-size: xx-large;
+  font-size: -webkit-xxx-large;
+  color: #FF0000;
 }

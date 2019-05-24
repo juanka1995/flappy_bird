@@ -53,11 +53,11 @@ function onClick(event) {
 };
 
 // Función callback para cambiar el valor de la puntuacion
-
 function changeScore(value){
   score.innerHTML = value;
-  // score.innerHTML = "♥";
 }
+
+
 
 function showFinalScore(){
   if (typeof(Storage) !== "undefined") {
@@ -74,8 +74,11 @@ function showFinalScore(){
 }
 
 
-function changeLifes(value){
-  lifes.innerHTML = value;
+function changeLifes(sumar){
+  if(sumar)
+    lifes.innerHTML += "♥";
+  else
+    lifes.innerHTML = lifes.innerHTML.slice(0, lifes.innerHTML.length-1);
 }
 
 /// Función que se encarga de renderizar un frame
@@ -95,8 +98,8 @@ function render() {
   renderer.render(scene, scene.getCamera());
 
   // Actualizar posición de los divs score y lifes
-  score.style.top = window.innerHeight*0.01 + 'px';
-  score.style.left = window.innerWidth*0.91 + 'px';
+  score.style.top = window.innerHeight*0.88 + 'px';
+  score.style.left = window.innerWidth*0.47 + 'px';
   lifes.style.top = window.innerHeight*0.1 + 'px';
   lifes.style.left = window.innerWidth*0.1 + 'px';
   finalScore.style.top = window.innerHeight*0.4 + 'px';

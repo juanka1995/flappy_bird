@@ -5,7 +5,7 @@ class Duck extends THREE.Object3D {
 
 
     // Variables de posiciones
-    this.upperBound = 10;
+    this.upperBound = 7.7;
     this.lowerBound = -5.3;
     this.x = 2;
     this.y = 0;

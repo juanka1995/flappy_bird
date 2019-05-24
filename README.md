@@ -7,9 +7,9 @@ Flappy Bird game using Three.js
 - [ ] Hacer su colision (facil, igual que los obstaculos)
 - [ ] Hacer que aparezcan como el hueco de los obstaculos, procedural (esto puede ser lo mas dificil)
 - [ ] Hacer las funciones de las colisiones (facil)
-- [ ] Hacer pantalla de puntuaciones
+- [X] Hacer pantalla de puntuaciones
 - [X] Reiniciar el juego
 - [X] Vidas de pato como corazones
-- [ ] Pato muere al tocar el suelo
-- [ ] Hacer que el pato no traspase las tuberias por arriba
+- [X] Pato muere al tocar el suelo
+- [X] Hacer que el pato no traspase las tuberias por arriba
 - [X] Hacer parpadeo al perder vida
