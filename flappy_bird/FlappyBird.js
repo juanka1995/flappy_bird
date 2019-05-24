@@ -53,6 +53,7 @@ class FlappyBird extends THREE.Scene {
     // Callbacks para actualizar interfaz de usuario (script.js)
     this.changeScore = scoreCallback;
     this.changeScore(this.score);
+    this.showFinalScore = showFinalScore;
   }
   
   createCamera (unRenderer) {
@@ -171,6 +172,7 @@ class FlappyBird extends THREE.Scene {
         }
         else{
           this.duck.visible = true;
+          this.showFinalScore();
         }
       }
     }
@@ -204,13 +206,16 @@ class FlappyBird extends THREE.Scene {
   // Función encargada de corregir la posición de las vidas corazon si el tamaño de la ventana cambia
   correctLifeHeartsPosition(){
     // Cambiamos la posición del primer corazon
-    var new_first_x_position = this.calculateFirstHeartPosition();
-    this.life_hearts[0].updateXPosition(new_first_x_position);
+    if(this.life_hearts.length > 0){
+      var new_first_x_position = this.calculateFirstHeartPosition();
 
-    // Cambia la posición del resto de corazones (vidas)
-    for (let i = 1; i < this.life_hearts.length; i++) {
-      let new_x_position = this.life_hearts[i-1].getPosition().x + this.space_between_hearts;
-      this.life_hearts[i].updateXPosition(new_x_position);
+      this.life_hearts[0].updateXPosition(new_first_x_position);
+
+      // Cambia la posición del resto de corazones (vidas)
+      for (let i = 1; i < this.life_hearts.length; i++) {
+        let new_x_position = this.life_hearts[i-1].getPosition().x + this.space_between_hearts;
+        this.life_hearts[i].updateXPosition(new_x_position);
+      }
     }
   }
 

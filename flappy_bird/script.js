@@ -56,7 +56,23 @@ function onClick(event) {
 
 function changeScore(value){
   score.innerHTML = value;
+  // score.innerHTML = "♥";
 }
+
+function showFinalScore(){
+  if (typeof(Storage) !== "undefined") {
+    if (!localStorage.score || localStorage.score < score.innerHTML) {
+      localStorage.score = score.innerHTML;
+    }
+
+    finalScore.innerHTML = "Tu puntuacion ha sido: " + score.innerHTML + "<br>" + "Tu puntuacion total: " + localStorage.score + "<br>"+ "Haz click o pulsa la barra espaciadora para empezar de nuevo<br>";
+  }
+  else {
+    finalScore.innerHTML = "Tu puntuacion ha sido: " + score.innerHTML + "<br>" + "Haz click o pulsa la barra espaciadora para empezar de nuevo<br>";
+  }
+  finalScore.style.display = "block";
+}
+
 
 function changeLifes(value){
   lifes.innerHTML = value;
@@ -79,10 +95,13 @@ function render() {
   renderer.render(scene, scene.getCamera());
 
   // Actualizar posición de los divs score y lifes
-  score.style.top = window.innerHeight*0.1 + 'px';
-  score.style.left = window.innerWidth/2 + 'px';
+  score.style.top = window.innerHeight*0.01 + 'px';
+  score.style.left = window.innerWidth*0.91 + 'px';
   lifes.style.top = window.innerHeight*0.1 + 'px';
   lifes.style.left = window.innerWidth*0.1 + 'px';
+  finalScore.style.top = window.innerHeight*0.4 + 'px';
+  finalScore.style.left = window.innerWidth*0.35 + 'px';
+
 }
 
 /// Función que actualiza la razón de aspecto de la cámara y el tamaño de la imagen que genera el renderer en función del tamaño que tenga la ventana
@@ -93,7 +112,8 @@ function onWindowResize () {
 
 // Función encargada de crear una nueva escena
 function createNewScene(){
-  scene = new FlappyBird (renderer.domElement, changeScore, changeLifes);
+  finalScore.style.display = "none";
+  scene = new FlappyBird (renderer.domElement, changeScore, changeLifes, showFinalScore);
 }
 
 /// La función principal
@@ -112,17 +132,21 @@ $(function () {
 
   // DIV para la puntuacion
   score = document.createElement('div');
-  score.style.position = 'absolute';
-  score.style.fontSize = '-webkit-xxx-large';
-  score.style.fontFamily = 'Verdana, Geneva, sans-serif'
+  score.classList.add('score');
+  score.setAttribute("id", "score");
   document.body.appendChild(score);
 
   // DIV para las vidas
   lifes = document.createElement('div');
-  lifes.style.position = 'absolute';
-  lifes.style.fontSize = 'xx-large';
-  lifes.style.fontFamily = 'Verdana, Geneva, sans-serif'
+  lifes.classList.add('lifes');
+  lifes.setAttribute("id", "lifes");
   document.body.appendChild(lifes);
+
+  // DIV para la puntuacion
+  finalScore = document.createElement('div');
+  finalScore.classList.add('finalScore');
+  finalScore.setAttribute("id", "finalScore");
+  document.body.appendChild(finalScore);
   
   // Se crea la escena. La escena es una instancia de nuestra propia clase encargada de crear y gestionar todos los elementos que intervienen en la escena.
   createNewScene();

@@ -1,0 +1,37 @@
+body{
+    margin: 0;
+    overflow: hidden; 
+}
+
+.lifes, .score, .finalScore{
+  position: absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome and Opera */
+}
+
+.score{
+  font-size: -webkit-xxx-large;
+}
+
+.finalScore{
+  font-size: initial;
+}
+
+.finalScore, .score{
+  border-style: outset;
+  border: 2px solid rgb(226, 231, 235);
+  border-radius: 5px;
+  background: #FCFCFC;
+  padding: 10px 12px;
+  overflow: hidden;
+}
+
+#lifes{
+  font-size: xx-large;
+}
