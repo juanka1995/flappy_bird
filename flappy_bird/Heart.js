@@ -26,7 +26,7 @@ class Heart extends THREE.Mesh {
         var geometry = new THREE.ExtrudeBufferGeometry(heart, extrudeSettings);
         geometry.applyMatrix(new THREE.Matrix4().makeScale(0.07, 0.07, 0.07));
         geometry.applyMatrix(new THREE.Matrix4().makeRotationZ(Math.PI));
-        geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0.5));
+        geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0));
         var material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
         this.geometry = geometry;
         this.material = material;

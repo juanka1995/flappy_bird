@@ -15,7 +15,7 @@ class Coin extends THREE.Mesh {
         combinedGeometry.merge(ringGeometry);
         combinedGeometry.merge(cylinderGeometry);
         combinedGeometry.applyMatrix(new THREE.Matrix4().makeScale(0.17, 0.17, 0.17));
-        combinedGeometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0.5));
+        combinedGeometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0));
 
         var objectMaterial = new THREE.MeshStandardMaterial({
             color: 0xffbf00,
