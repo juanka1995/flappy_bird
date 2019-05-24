@@ -29,9 +29,12 @@ class FlappyBird extends THREE.Scene {
     // Objecto pato
     this.duck = new Duck();
     this.add (this.duck);
-    this.bonusLeft = new Bonus(1, "Heart");
+
+    // Objetos bonus
+    this.heart_mesh = new Heart();
+    this.bonusLeft = new Bonus(1, new Heart());
     this.add(this.bonusLeft);
-    this.bonusRight = new Bonus(2, "Coin");
+    this.bonusRight = new Bonus(2, new Coin());
     this.add(this.bonusRight);
 
 
@@ -184,6 +187,7 @@ class FlappyBird extends THREE.Scene {
           this.checkObstaclesCollisions();
         }
 
+        // Comprueba las colisiones entre el pato y los bonus
         this.checkBonusCollisions();
       }
       // Si me quedo sin vidas
@@ -256,25 +260,25 @@ class FlappyBird extends THREE.Scene {
     }
   }
 
-   // Función encargada de comprobar si el pato colisiona con los obstaculos
+  // Función encargada de comprobar si el pato colisiona con los bonus
   checkBonusCollisions(){
-    // Calculamos las distancias del pato a los obstaculos
+    // Calculamos las distancias del pato a los bonus
     var distanceBonus1 = this.bonusRight.getXPosition() - this.duck.getXPosition();
     var distanceBonus2 = this.bonusLeft.getXPosition() - this.duck.getXPosition();
 
-    // Siempre que la distancia al obstaculo sea positiva
-    // Esto quiere decir que el obstaculo esta delante de PATO
+    // Siempre que la distancia al bonus sea positiva
+    // Esto quiere decir que el bonus esta delante de PATO
 
-    //Cuando PATO esta cerca de el obstaculo 1
+    //Cuando PATO esta cerca de el bonus 1
     if(this.bonusRight.visible){
       if(distanceBonus1 < this.bonusRight.getWidth()/2 && distanceBonus1 > -(this.bonusRight.getWidth()/2)){
         
-        //Se actualiza la caja de PATO y las cajas del obstaculo
+        //Se actualiza la caja de PATO y las cajas del bonus
         let duckBox = this.duck.getBox();
         let bonusBox = this.bonusRight.getBox();
 
 
-        //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
+        //Si choca con alguna de ella
         if(bonusBox.intersectsBox(duckBox)){
           console.log("CHOCO! en el Der");
           this.applyBonus(this.bonusRight.type);
@@ -283,15 +287,15 @@ class FlappyBird extends THREE.Scene {
       }
     }
 
-    //Cuando PATO esta cerca de el obstaculo 2
+    //Cuando PATO esta cerca de el bonus 2
     if(this.bonusLeft.visible){
       if(distanceBonus2 < this.bonusLeft.getWidth()/2 && distanceBonus2 > -(this.bonusLeft.getWidth()/2)){
         
-        //Se actualiza la caja de PATO y las cajas del obstaculo
+        //Se actualiza la caja de PATO y las cajas del bonus
         let duckBox = this.duck.getBox();
         let bonusBox = this.bonusLeft.getBox();
 
-        //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
+        //Si choca con alguna de ella
         if(bonusBox.intersectsBox(duckBox)){
           console.log("CHOCO en el Izq");
           this.applyBonus(this.bonusLeft.type);
