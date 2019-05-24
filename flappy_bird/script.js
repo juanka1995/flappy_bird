@@ -61,11 +61,11 @@ function changeScore(value){
 
 function showFinalScore(){
   if (typeof(Storage) !== "undefined") {
-    if (!localStorage.score || localStorage.score < score.innerHTML) {
+    if (!localStorage.score | localStorage.score < score.innerHTML) {
       localStorage.score = score.innerHTML;
     }
 
-    finalScore.innerHTML = "Tu puntuacion ha sido: " + score.innerHTML + "<br>" + "Tu puntuacion total: " + localStorage.score + "<br>"+ "Haz click o pulsa la barra espaciadora para empezar de nuevo<br>";
+    finalScore.innerHTML = "Tu puntuacion ha sido: " + score.innerHTML + "<br>" + "Tu puntuacion total guardada: " + localStorage.score + "<br>"+ "Haz click o pulsa la barra espaciadora para empezar de nuevo<br>";
   }
   else {
     finalScore.innerHTML = "Tu puntuacion ha sido: " + score.innerHTML + "<br>" + "Haz click o pulsa la barra espaciadora para empezar de nuevo<br>";

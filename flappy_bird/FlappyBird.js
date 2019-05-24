@@ -18,6 +18,7 @@ class FlappyBird extends THREE.Scene {
 
     // Ancho de pantalla por defecto
     this.innerWidth = 1680;
+    this.lowerBound = -5.3;
     
     // Obstaculos de la escena
     this.next_obstacle = 2;
@@ -29,6 +30,8 @@ class FlappyBird extends THREE.Scene {
     // Objecto pato
     this.duck = new Duck();
     this.add (this.duck);
+    this.bonus = new Bonus();
+    this.add(this.bonus);
 
     // Variable que determina cuando el juego se inicia o no
     this.startedGame = false;
@@ -186,6 +189,7 @@ class FlappyBird extends THREE.Scene {
       if(this.life_hearts.length > 0){
         // Actualizar movimiento de los obstaculos
         this.updateObstacleMovement();
+        this.bonus.update();
 
         // Comprobar que no se producen colisiones entre los obstaculos y el pato
         if(this.detectCollisions){
@@ -249,7 +253,7 @@ class FlappyBird extends THREE.Scene {
 
       //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
       if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
-        console.log("CHOCO! en el 1");
+        //console.log("CHOCO! en el 1");
         this.loseLife();
       }
       
@@ -268,7 +272,7 @@ class FlappyBird extends THREE.Scene {
 
       //Si choca con alguna de ellas "obstacleBoxes[0]" es la tubería de arriba y "obstacleBoxes[1]" la de abajo
       if(obstacleBoxes[0].intersectsBox(duckBox) || obstacleBoxes[1].intersectsBox(duckBox)){
-        console.log("CHOCO en el 2");
+        //console.log("CHOCO en el 2");
         this.loseLife();
       }
 
@@ -276,6 +280,10 @@ class FlappyBird extends THREE.Scene {
       if(distanceToObs2 < 0 && distanceToObs2 > this.threshold){
         this.increaseScore(this.changeScore);
       }
+    }
+
+    if(this.duck.getYPosition() <= this.lowerBound){
+      this.loseLife();
     }
   }
 
