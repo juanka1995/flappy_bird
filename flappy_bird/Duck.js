@@ -10,6 +10,10 @@ class Duck extends THREE.Object3D {
     this.x = 2;
     this.y = 0;
     this.z = 0.5;
+
+    this.scaleX = this.scaleY = this.scaleZ = 0.1
+    
+
     
 
     // Variables de las animaciones
@@ -59,7 +63,7 @@ class Duck extends THREE.Object3D {
 
     // Escalado y posicionamiento 
 
-    this.scale.set(0.1,0.1,0.1);
+    this.scale.set(this.scaleX ,this.scaleY ,this.scaleZ);
     this.position.set (0,this.y,this.z);
 
     // Instanciacion de variables para la subida y bajada
@@ -190,6 +194,13 @@ class Duck extends THREE.Object3D {
     this.rotation.set (0,0,0);
     this.y = 0;
     this.actualPosition.y = 0;
+  }
+
+  resize(){
+    this.scaleX += 0.01;
+    this.scaleY += 0.01;
+    this.scaleZ += 0.01;
+    this.scale.set(this.scaleX ,this.scaleY ,this.scaleZ);
   }
 
 }
