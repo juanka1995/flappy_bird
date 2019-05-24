@@ -1,5 +1,5 @@
 
-class Heart2 extends THREE.Mesh {
+class Heart extends THREE.Mesh {
     constructor(){
         super();
 
