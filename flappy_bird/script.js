@@ -58,7 +58,7 @@ function changeScore(value){
 }
 
 
-
+// Mostrar el cuadrado final con la puntuación obtenida y la mejor hasta el momento
 function showFinalScore(){
   if (typeof(Storage) !== "undefined") {
     if (!localStorage.score | localStorage.score < score.innerHTML) {
