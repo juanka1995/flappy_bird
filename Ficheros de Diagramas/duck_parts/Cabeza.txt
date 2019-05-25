@@ -1,0 +1,9 @@
+
+getPosY()
+getPosX()
+
+
+geometry 
+material 
+posX 
+posY 

@@ -1,0 +1,12 @@
+
+getPosY()
+setPataAtras(tamanioCuerpo)
+
+
+posZ 
+pieDerecho 
+pieIzquierdo 
+y 
+pataDerecha 
+pataIzquierda 
+rotZ 

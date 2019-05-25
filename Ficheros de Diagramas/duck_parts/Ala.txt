@@ -1,0 +1,14 @@
+
+getPosY()
+getPosX()
+checkAnimation()
+
+
+rotacion 
+upperBoundAnimation 
+lowerBoundAnimation 
+geometry 
+material 
+posZ 
+posY 
+cambiaAnimacion 
