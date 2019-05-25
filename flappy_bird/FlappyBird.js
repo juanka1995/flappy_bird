@@ -37,7 +37,6 @@ class FlappyBird extends THREE.Scene {
     this.bonusRight = new Bonus(2, new Coin());
     this.add(this.bonusRight);
 
-
     // Variable que determina cuando el juego se inicia o no
     this.startedGame = false;
     this.endGame = false;
@@ -45,7 +44,11 @@ class FlappyBird extends THREE.Scene {
     this.lifes = 1;
     this.points = 1;
     this.detectCollisions = true;
+    this.canGetBonus = false;
+    this.canGetBonusSeconds = 2.5;
     this.iniStopCollisions = null;
+    this.timeBonusReference = new Date();
+    this.offsetBonus = 0.5;
     
     // Umbral para determinar si PATO ha pasado un obstaculo
     this.threshold = -0.1;
@@ -147,6 +150,24 @@ class FlappyBird extends THREE.Scene {
   }
   
   update () {
+    // Si aún no han pasado this.canGetBonusSeconds desde el inicio los bonus estarán desactivados
+    if(!this.canGetBonus){
+      var currentTime = new Date();
+      if((currentTime.getTime() - this.timeBonusReference.getTime())/1000 >= this.canGetBonusSeconds){
+        this.canGetBonus = true;
+        this.timeBonusReference = new Date();
+        this.setRandomBonusVisible();
+      }
+    }
+    // Despues de this.canGetBonusSeconds segundos ya pueden empezar a aparecer los bonus
+    else{
+      var currentTime = new Date();
+      if((currentTime.getTime() - this.timeBonusReference.getTime())/1000 >= this.canGetBonusSeconds){
+        this.timeBonusReference = new Date();
+        this.setRandomBonusVisible();
+      }
+    } 
+
     // Si la detección de colisiones está desactivada...
     if(!this.detectCollisions){
       // Esperamos 1 segundo hasta activar la detección de nuevo
@@ -188,7 +209,9 @@ class FlappyBird extends THREE.Scene {
         }
 
         // Comprueba las colisiones entre el pato y los bonus
-        this.checkBonusCollisions();
+        if(this.canGetBonus){
+          this.checkBonusCollisions();
+        }
       }
       // Si me quedo sin vidas
       else {
@@ -198,6 +221,21 @@ class FlappyBird extends THREE.Scene {
     if(!this.endGame){
       // Mover el fondo
       this.updateBackgroundMovement();
+    }
+  }
+
+  // Función que hace visible o no los obstaculos que estén invisibles de forma aleatoria
+  setRandomBonusVisible(){
+    var randomNumber = Math.random();
+    // Bonus de la izquierda
+    if(randomNumber >= this.offsetBonus && !this.bonusLeft.visible){
+      this.bonusLeft.setVisibleNextGoToRightBound();
+    }
+    
+    randomNumber = Math.random();
+    // Bonus de la derecha
+    if(randomNumber >= this.offsetBonus && !this.bonusRight.visible){
+      this.bonusRight.setVisibleNextGoToRightBound();
     }
   }
 
@@ -282,7 +320,8 @@ class FlappyBird extends THREE.Scene {
         if(bonusBox.intersectsBox(duckBox)){
           console.log("CHOCO! en el Der");
           this.applyBonus(this.bonusRight.type);
-          this.bonusRight.visible = false; 
+          this.bonusRight.visible = false;
+          this.bonusRight.unsetVisibleNextGoToRightBound(); 
         }
       }
     }
@@ -300,11 +339,11 @@ class FlappyBird extends THREE.Scene {
           console.log("CHOCO en el Izq");
           this.applyBonus(this.bonusLeft.type);
           this.bonusLeft.visible = false;
+          this.bonusLeft.unsetVisibleNextGoToRightBound();
         }
       }
     }
   }
-
 
   // Función encargada de actualizar el movimiento de los obstaculos
   updateObstacleMovement(){

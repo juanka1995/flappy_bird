@@ -15,6 +15,14 @@ body{
                                 supported by Chrome and Opera */
 }
 
+.finalScore{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 .score{
   font-size: -webkit-xxx-large;
 }

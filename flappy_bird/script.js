@@ -6,9 +6,6 @@ scene = null;
 /// La variable que referenciará al renderer
 renderer = null;
 
-/// El objeto que referencia a la interfaz gráfica de usuario
-gui = null;
-
 score = null;
 lifes = null;
 
@@ -102,8 +99,6 @@ function render() {
   score.style.left = window.innerWidth*0.47 + 'px';
   lifes.style.top = window.innerHeight*0.1 + 'px';
   lifes.style.left = window.innerWidth*0.1 + 'px';
-  finalScore.style.top = window.innerHeight*0.4 + 'px';
-  finalScore.style.left = window.innerWidth*0.35 + 'px';
 
 }
 

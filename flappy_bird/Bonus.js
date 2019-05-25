@@ -16,6 +16,13 @@
     this.type = null;
     this.calculateTypeBonus();
     
+    // Variables para calcular la posicion del bonus
+    var width_window = this.upperBound - this.lowerBound;
+    var respect_space = 0.2;
+    this.min = this.lowerBound + width_window*respect_space;
+    this.max = this.upperBound - width_window*respect_space;
+
+    
     // Posicion del bonus dependiendo del parametro bonus_pos
     if(this.bonusPos == 1){
       this.x = this.leftBound/2;
@@ -34,6 +41,10 @@
 
     // Colisiones
     this.box = new THREE.Box3();
+
+    // Visibilidad desactivada por defecto
+    this.visible = false;
+    this.set_visible = false;
   }
 
   update(){
@@ -59,6 +70,8 @@
   // Funcion que mueve el bonus hacia el extremo derecho
   goToRightBound(){
     this.position.set (this.max_rigth_pos,0,0.5);
+    if(this.set_visible)
+      this.visible = true;
   }
 
   // Función que devuelve la posición del bonus (primero o segundo)
@@ -93,5 +106,18 @@
     this.mesh = mesh.clone();
     this.calculateTypeBonus();
     this.add(this.mesh);
+  }
+
+  // Funciones para hacer el bonus visible el proximo reseteo o no
+  setVisibleNextGoToRightBound(){
+    this.set_visible = true;
+  }
+  unsetVisibleNextGoToRightBound(){
+    this.set_visible = false;
+  }
+
+  // Función que calcula la nueva posición del bonus
+  setNewObstaclePosition(){
+    this.position.y = this.min + Math.random() * (Math.abs(this.min)+this.max);
   }
 }
