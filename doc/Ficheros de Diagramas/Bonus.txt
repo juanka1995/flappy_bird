@@ -1,4 +1,4 @@
-FUNCIONES 
+
 
 update()
 calculateTypeBonus()
@@ -10,9 +10,10 @@ getTypeBonus()
 getWidth()
 getBox()
 changeMesh(new_mesh)
+setVisibleNextGoToRightBound()
+unsetVisibleNextGoToRightBound()
+setNewObstaclePosition()
 
-
-Variables 
 
 mesh 
 rotationY 
@@ -20,11 +21,15 @@ speed
 upperBound 
 lowerBound 
 rightBound 
-leftBound 
-x
+leftBound  
+type 
+min 
+max 
 bonusPos 
+x 
 max_rigth_pos 
 max_left_pos 
-box
-type 
- 
+box 
+visible 
+mesh 
+set_visible 
