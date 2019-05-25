@@ -1,0 +1,156 @@
+\documentclass[12zpt]{article}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage[top=2cm, bottom=2cm,left=2cm, right=2cm]{geometry}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+colorlinks=false,
+linkbordercolor={white}
+}
+
+\usepackage{parskip}
+\usepackage{listings}
+\usepackage{courier}
+\lstset{
+	numbers=left, % Muestra el número de linea
+	stepnumber=1, % Empieza por el 1
+	basicstyle=\footnotesize\ttfamily, % Standardschrift
+	%numbers=left,               % Ort der Zeilennummern
+	numberstyle=\tiny,          % Stil der Zeilennummern
+	%stepnumber=2,               % Abstand zwischen den Zeilennummern
+	numbersep=5pt,              % Abstand der Nummern zum Text
+	tabsize=2,                  % Groesse von Tabs
+	extendedchars=true,         %
+	breaklines=true,            % Zeilen werden Umgebrochen
+	keywordstyle=\color{red},
+		frame=b,         
+	%        keywordstyle=[1]\textbf,    % Stil der Keywords
+	%        keywordstyle=[2]\textbf,    %
+	%        keywordstyle=[3]\textbf,    %
+	%        keywordstyle=[4]\textbf,   \sqrt{\sqrt{}} %
+	stringstyle=\color{white}\ttfamily, % Farbe der String
+	showspaces=false,           % Leerzeichen anzeigen ?
+	showtabs=false,             % Tabs anzeigen ?
+	xleftmargin=17pt,
+	framexleftmargin=17pt,
+	framexrightmargin=5pt,
+	framexbottommargin=4pt,
+	%backgroundcolor=\color{lightgray},
+	showstringspaces=false      % Leerzeichen in Strings anzeigen ?        
+}
+\lstloadlanguages{% Check Dokumentation for further languages ...
+	   %[Visual]Basic
+	   %Pascal
+	   %C
+	   %C++
+	   %XML
+	   %HTML
+	   Java
+}
+  %\DeclareCaptionFont{blue}{\color{blue}} 
+
+%\captionsetup[lstlisting]{singlelinecheck=false, labelfont={blue}, textfont={blue}}
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.74, 0.22, 0.0,0.21}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+
+\newcommand{\img}[1]{
+\noindent\makebox[\textwidth][c]{\includegraphics[width=1\textwidth,]{#1}}%
+}
+\usepackage{fancyhdr} 
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize Universidad de Granada} %encabezado izquierda
+\fancyhead[R]{\footnotesize ETSIIT}   % dereecha
+\fancyfoot[R]{\footnotesize Juan Carlos Ruiz García}  % Pie derecha
+\fancyfoot[C]{\thepage}  % centro
+\fancyfoot[L]{\footnotesize 2017/2018}  %izquierda
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PORTADA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+																					%%%
+\begin{center}																		%%%
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}									%%%\left
+ 																					%%%
+\begin{minipage}{0.48\textwidth} \begin{flushleft}
+\includegraphics[scale = 0.42]{logo1.png}
+\end{flushleft}\end{minipage}
+\begin{minipage}{0.48\textwidth} \begin{flushright}
+\includegraphics[scale = 0.55]{logo2.jpg}
+\end{flushright}\end{minipage}
+
+													 								%%%
+\vspace*{-1.5cm}								%%%
+																					%%%	
+\textsc{\huge Universidad de Granada\\ \vspace{5px} ETSIIT}\\[1.5cm]	
+
+\textsc{\LARGE Sistemas Gráficos}\\[1.5cm]													%%%
+
+%%%
+    																				%%%
+ 			\vspace*{1cm}																		%%%
+																					%%%
+\HRule \\[0.4cm]																	%%%
+{ \huge \bfseries Flappy Bird - Práctica 2}\\[0.4cm]	%%%
+ 																					%%%
+\HRule \\[1.5cm]																	%%%
+ 																				%%%
+																					%%%
+\begin{minipage}{0.46\textwidth}													%%%
+\begin{center} \large															%%%	
+\textbf{Autores:} Guillermo Bueno Vargas\\
+Juan Carlos Ruiz García,\\
+\textbf{Emails:} guillergood@correo.ugr.es, jcarlosruiz95@correo.ugr.es,\\
+\textbf{Githubs:} Guillergood, juanka1995\\ 
+\end{center}																		%%%
+\end{minipage}		
+																	%%%
+\vspace{7cm} 																				
+\begin{center}																					
+{\large \today}																	%%%
+ 			\end{center}												  						
+\end{center}							 											
+																					
+\newpage																		
+%%%%%%%%%%%%%%%%%%%% TERMINA PORTADA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%% INDICE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{9}
+	\bibitem{doc} 
+	Documentacion oficial de Three.js
+	\url{https://threejs.org/docs/index.html}
+	
+	\bibitem{coin} 
+	Shader para la moneda.
+	\url{https://james.greenle.af/articles/coins}
+
+	\bibitem{heart} 
+	Shader para el corazón.
+	\url{https://threejsfundamentals.org/threejs/lessons/threejs-primitives.html}
+
+	\bibitem{callback} 
+	Uso de callbacks.
+	\url{https://developer.mozilla.org/es/docs/Glossary/Callback_function}
+	
+	\bibitem{box3_collisions} 
+	Uso de Box3 para colisiones.
+	\url{http://man.hubwiz.com/docset/HTML.docset/Contents/Resources/Documents/developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection/Bounding_volume_collision_detection_with_THREE.html},
+	\url{https://threejs.org/docs/index.html#api/en/math/Box3}
+\end{thebibliography}
+
+%%%%%%%%%%%%%%%%%%%% TERMINA INDICE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \lstinputlisting[label=samplecode,caption=A sample]{../E1/salida.txt}
+
+% \noindent\makebox[\textwidth][c]{\includegraphics[width=0.25\textwidth,]{6.png}}%
+
+\end{document}
