@@ -58,9 +58,20 @@ function changeScore(value){
 // Mostrar el cuadrado final con la puntuación obtenida y la mejor hasta el momento
 function showFinalScore(){
   if (typeof(Storage) !== "undefined") {
-    if (!localStorage.score | localStorage.score < score.innerHTML) {
-      localStorage.score = score.innerHTML;
+    if (!localStorage.score) {
+      localStorage.score = 0;
     }
+
+    if (Number.parseInt === undefined){
+      Number.parseInt = window.parseInt;
+    }
+    
+    scoreInt = Number.parseInt(score.innerHTML);
+
+    if (localStorage.score < scoreInt) {
+      localStorage.score = scoreInt;
+    }
+
 
     finalScore.innerHTML = "Tu puntuacion ha sido: " + score.innerHTML + "<br>" + "Tu puntuacion total guardada: " + localStorage.score + "<br>"+ "Haz click o pulsa la barra espaciadora para empezar de nuevo<br>";
   }
