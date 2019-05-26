@@ -96,7 +96,7 @@ function changeLifes(sumar){
  */
 let clock = new THREE.Clock();
 let delta = 0;
-let interval = 1 / 60; // 60 FPS
+let interval = 1 / 45; // 60 FPS
 function render() {
   // Se solicita que La próxima vez que haya que refrescar la ventana se ejecute una determinada función, en este caso la funcion render.
   // La propia función render es la que indica que quiere ejecutarse la proxima vez
