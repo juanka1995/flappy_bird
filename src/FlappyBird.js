@@ -89,7 +89,7 @@ class FlappyBird extends THREE.Scene {
     this.background.geometry = new THREE.BoxGeometry(size_x_background, size_y_background);
     // Las primitivas básicas se crean centradas en el origen
     // Como material se crea uno a partir de una textura
-    this.texture = new THREE.TextureLoader().load('../imgs/width_fondo_bar.png');
+    this.texture = new THREE.TextureLoader().load('imgs/width_fondo_bar.png');
     this.texture.wrapS = THREE.RepeatWrapping;
     this.background.material = new THREE.MeshPhongMaterial ({map: this.texture});
     // Por último se añade el suelo a la escena
