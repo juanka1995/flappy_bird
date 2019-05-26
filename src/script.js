@@ -93,17 +93,27 @@ function changeLifes(sumar){
 /**
  * Se renderiza la escena, captada por una cámara.
  */
+let clock = new THREE.Clock();
+let delta = 0;
+// 60 FPS
+let interval = 1 / 60;
 function render() {
   // Se solicita que La próxima vez que haya que refrescar la ventana se ejecute una determinada función, en este caso la funcion render.
   // La propia función render es la que indica que quiere ejecutarse la proxima vez
   // Por tanto, esta instrucción es la que hace posible que la función  render  se ejecute continuamente y por tanto podamos crear imágenes que tengan en cuenta los cambios que se la hayan hecho a la escena después de un render.
   requestAnimationFrame(render);
+  delta += clock.getDelta();
   
-  // Se le pide a la escena que se actualice antes de ser renderizada
-  scene.update();
+  if(delta > interval){
+    // Se le pide a la escena que se actualice antes de ser renderizada
+    scene.update();
+    
+    // Por último, se le pide al renderer que renderice la escena que capta una determinada cámara, que nos la proporciona la propia escena.
+    renderer.render(scene, scene.getCamera());
+
+    delta = delta % interval;
+  }
   
-  // Por último, se le pide al renderer que renderice la escena que capta una determinada cámara, que nos la proporciona la propia escena.
-  renderer.render(scene, scene.getCamera());
 
   // Actualizar posición de los divs score y lifes
   score.style.top = window.innerHeight*0.88 + 'px';
