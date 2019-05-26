@@ -92,11 +92,11 @@ function changeLifes(sumar){
 /// Función que se encarga de renderizar un frame
 /**
  * Se renderiza la escena, captada por una cámara.
+ * Adema limitamos los FPS a 60
  */
 let clock = new THREE.Clock();
 let delta = 0;
-// 60 FPS
-let interval = 1 / 60;
+let interval = 1 / 60; // 60 FPS
 function render() {
   // Se solicita que La próxima vez que haya que refrescar la ventana se ejecute una determinada función, en este caso la funcion render.
   // La propia función render es la que indica que quiere ejecutarse la proxima vez
