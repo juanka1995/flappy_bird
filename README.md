@@ -1,4 +1,4 @@
-# flappy_bird
+# Flappy Bird
 Flappy Bird game using Three.js
 
 [Watch it playing](https://juanka1995.github.io/flappy_bird/)
