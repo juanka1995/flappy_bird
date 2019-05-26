@@ -11,7 +11,7 @@ class Papada extends THREE.Mesh {
     // Las primitivas básicas se crean centradas en el origen
     // Se puede modificar su posición con respecto al sistema de coordenadas local con una transformación aplicada directamente a la geometría.
     // Como material se crea uno a partir de un color
-    this.material = new THREE.MeshPhongMaterial({color: 0xA30000});
+    this.material = new THREE.MeshBasicMaterial({color: 0xA30000});
     this.position.set (3.25-this.y/2,7.8,0);
 
     this.posY = posY;

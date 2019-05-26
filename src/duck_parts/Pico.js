@@ -13,11 +13,11 @@ class Pico extends THREE.Mesh {
     // Se puede modificar su posición con respecto al sistema de coordenadas local con una transformación aplicada directamente a la geometría.
     // Como material se crea uno a partir de un color
     if(tipo == "upperLip"){
-      this.material = new THREE.MeshPhongMaterial({color: 0xffa726});
+      this.material = new THREE.MeshBasicMaterial({color: 0xffa726});
       this.position.set (3.4-this.y/2+0.1,8.5,0);
     }
     else if (tipo == "lowerLip"){
-      this.material = new THREE.MeshPhongMaterial({color: 0xFFD290});
+      this.material = new THREE.MeshBasicMaterial({color: 0xFFD290});
       this.position.set (3.4-this.y/2+0.1,8.25,0);
     }
 

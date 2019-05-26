@@ -148,6 +148,8 @@ $(function () {
   window.addEventListener ("resize", onWindowResize);
   window.addEventListener ("keydown", onDocumentKeyDown);
   window.addEventListener ("click", onClick);
+  //window.addEventListener("touchstart", onClick, false);
+ //window.addEventListener("touchend", onClick, false);
 
   // DIV para la puntuacion
   score = document.createElement('div');

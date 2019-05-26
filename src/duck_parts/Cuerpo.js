@@ -11,7 +11,7 @@ class Cuerpo extends THREE.Mesh {
     // Las primitivas básicas se crean centradas en el origen
     // Se puede modificar su posición con respecto al sistema de coordenadas local con una transformación aplicada directamente a la geometría.
     // Como material se crea uno a partir de un color
-    this.material = new THREE.MeshPhongMaterial({color: 0xe68a00});
+    this.material = new THREE.MeshBasicMaterial({color: 0xe68a00});
     this.geometry.translate(0, this.y/2, 0);
     this.posY = posY;
     this.position.set (0,this.posY,0);
